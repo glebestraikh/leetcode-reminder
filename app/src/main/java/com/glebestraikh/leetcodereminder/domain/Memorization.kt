@@ -6,16 +6,7 @@ import com.glebestraikh.leetcodereminder.domain.model.Progress.Companion.MAX_MEM
 import com.glebestraikh.leetcodereminder.domain.model.Recall
 import java.util.concurrent.TimeUnit
 
-/**
- * Правила индикатора запоминания — упрощённое интервальное повторение.
- *
- * - «Помню» поднимает уровень на 1, «частично» оставляет как есть,
- *   «не помню» опускает на 2.
- * - Чем выше уровень, тем дольше можно не повторять задачу (см. [reviewIntervalsDays]).
- */
 object Memorization {
-
-    /** Через сколько дней задачу стоит повторить на каждом уровне от 0 до 5. */
     private val reviewIntervalsDays = listOf(0L, 1L, 3L, 7L, 14L, 30L)
 
     fun review(
@@ -38,7 +29,6 @@ object Memorization {
         )
     }
 
-    /** Пора ли повторить задачу. Задачи, которые ни разу не решали, сюда не попадают. */
     fun isDueForReview(progress: Progress, nowMillis: Long): Boolean {
         val lastReviewedAt = progress.lastReviewedAtMillis ?: return false
         val intervalMillis = TimeUnit.DAYS.toMillis(
