@@ -1,0 +1,547 @@
+{
+  "contentVersion": 1,
+  "problems": [
+    {
+      "id": "two-sum",
+      "number": 1,
+      "title": "Two Sum",
+      "difficulty": "EASY",
+      "pattern": "Hash Map",
+      "statement": "Дан массив целых чисел nums и число target. Найдите индексы двух разных элементов, сумма которых равна target. Гарантируется, что ответ ровно один. Индексы можно вернуть в любом порядке.",
+      "examples": [
+        {
+          "input": "nums = [2,7,11,15], target = 9",
+          "output": "[0,1]",
+          "explanation": "nums[0] + nums[1] = 2 + 7 = 9"
+        },
+        {
+          "input": "nums = [3,2,4], target = 6",
+          "output": "[1,2]"
+        }
+      ],
+      "constraints": [
+        "2 ≤ len(nums) ≤ 10^4",
+        "-10^9 ≤ nums[i], target ≤ 10^9",
+        "Ответ существует и единственный"
+      ],
+      "timeComplexity": "O(n)",
+      "spaceComplexity": "O(n)",
+      "idea": "Идём по массиву один раз и для каждого числа x проверяем, встречалось ли раньше дополнение target - x. Уже виденные числа храним в map: число → индекс.",
+      "keyLine": "if j, ok := seen[target-x]; ok {",
+      "solution": [
+        {
+          "code": "func twoSum(nums []int, target int) []int {",
+          "indent": 0
+        },
+        {
+          "code": "seen := make(map[int]int)",
+          "indent": 1
+        },
+        {
+          "code": "for i, x := range nums {",
+          "indent": 1
+        },
+        {
+          "code": "if j, ok := seen[target-x]; ok {",
+          "indent": 2
+        },
+        {
+          "code": "return []int{j, i}",
+          "indent": 3
+        },
+        {
+          "code": "}",
+          "indent": 2
+        },
+        {
+          "code": "seen[x] = i",
+          "indent": 2
+        },
+        {
+          "code": "}",
+          "indent": 1
+        },
+        {
+          "code": "return nil",
+          "indent": 1
+        },
+        {
+          "code": "}",
+          "indent": 0
+        }
+      ]
+    },
+    {
+      "id": "valid-parentheses",
+      "number": 20,
+      "title": "Valid Parentheses",
+      "difficulty": "EASY",
+      "pattern": "Stack",
+      "statement": "Дана строка s только из символов ( ) [ ] { }. Определите, правильная ли это скобочная последовательность: каждая открывающая скобка закрывается скобкой того же типа и в правильном порядке.",
+      "examples": [
+        {
+          "input": "s = \"()[]{}\"",
+          "output": "true"
+        },
+        {
+          "input": "s = \"(]\"",
+          "output": "false"
+        },
+        {
+          "input": "s = \"([])\"",
+          "output": "true"
+        }
+      ],
+      "constraints": [
+        "1 ≤ len(s) ≤ 10^4",
+        "s состоит только из символов ()[]{}"
+      ],
+      "timeComplexity": "O(n)",
+      "spaceComplexity": "O(n)",
+      "idea": "Открывающие скобки кладём в стек. На закрывающей скобке вершина стека должна быть парной открывающей, тогда снимаем её. В конце стек должен быть пустым.",
+      "keyLine": "if len(stack) == 0 || stack[len(stack)-1] != open {",
+      "solution": [
+        {
+          "code": "func isValid(s string) bool {",
+          "indent": 0
+        },
+        {
+          "code": "pairs := map[byte]byte{')': '(', ']': '[', '}': '{'}",
+          "indent": 1
+        },
+        {
+          "code": "stack := []byte{}",
+          "indent": 1
+        },
+        {
+          "code": "for i := 0; i < len(s); i++ {",
+          "indent": 1
+        },
+        {
+          "code": "c := s[i]",
+          "indent": 2
+        },
+        {
+          "code": "if open, ok := pairs[c]; ok {",
+          "indent": 2
+        },
+        {
+          "code": "if len(stack) == 0 || stack[len(stack)-1] != open {",
+          "indent": 3
+        },
+        {
+          "code": "return false",
+          "indent": 4
+        },
+        {
+          "code": "}",
+          "indent": 3
+        },
+        {
+          "code": "stack = stack[:len(stack)-1]",
+          "indent": 3
+        },
+        {
+          "code": "} else {",
+          "indent": 2
+        },
+        {
+          "code": "stack = append(stack, c)",
+          "indent": 3
+        },
+        {
+          "code": "}",
+          "indent": 2
+        },
+        {
+          "code": "}",
+          "indent": 1
+        },
+        {
+          "code": "return len(stack) == 0",
+          "indent": 1
+        },
+        {
+          "code": "}",
+          "indent": 0
+        }
+      ]
+    },
+    {
+      "id": "binary-search",
+      "number": 704,
+      "title": "Binary Search",
+      "difficulty": "EASY",
+      "pattern": "Binary Search",
+      "statement": "Дан отсортированный по возрастанию массив nums без повторов и число target. Верните индекс target в массиве или -1, если его нет. Решение должно работать за O(log n).",
+      "examples": [
+        {
+          "input": "nums = [-1,0,3,5,9,12], target = 9",
+          "output": "4"
+        },
+        {
+          "input": "nums = [-1,0,3,5,9,12], target = 2",
+          "output": "-1"
+        }
+      ],
+      "constraints": [
+        "1 ≤ len(nums) ≤ 10^4",
+        "Все элементы различны",
+        "nums отсортирован по возрастанию"
+      ],
+      "timeComplexity": "O(log n)",
+      "spaceComplexity": "O(1)",
+      "idea": "Держим границы left и right. Смотрим на середину: если там target — нашли, если меньше — ищем справа, если больше — слева. Цикл идёт, пока left <= right.",
+      "keyLine": "mid := left + (right-left)/2",
+      "solution": [
+        {
+          "code": "func search(nums []int, target int) int {",
+          "indent": 0
+        },
+        {
+          "code": "left, right := 0, len(nums)-1",
+          "indent": 1
+        },
+        {
+          "code": "for left <= right {",
+          "indent": 1
+        },
+        {
+          "code": "mid := left + (right-left)/2",
+          "indent": 2
+        },
+        {
+          "code": "if nums[mid] == target {",
+          "indent": 2
+        },
+        {
+          "code": "return mid",
+          "indent": 3
+        },
+        {
+          "code": "}",
+          "indent": 2
+        },
+        {
+          "code": "if nums[mid] < target {",
+          "indent": 2
+        },
+        {
+          "code": "left = mid + 1",
+          "indent": 3
+        },
+        {
+          "code": "} else {",
+          "indent": 2
+        },
+        {
+          "code": "right = mid - 1",
+          "indent": 3
+        },
+        {
+          "code": "}",
+          "indent": 2
+        },
+        {
+          "code": "}",
+          "indent": 1
+        },
+        {
+          "code": "return -1",
+          "indent": 1
+        },
+        {
+          "code": "}",
+          "indent": 0
+        }
+      ]
+    },
+    {
+      "id": "best-time-to-buy-and-sell-stock",
+      "number": 121,
+      "title": "Best Time to Buy and Sell Stock",
+      "difficulty": "EASY",
+      "pattern": "Greedy",
+      "statement": "Дан массив prices, где prices[i] — цена акции в день i. Можно один раз купить и позже один раз продать. Верните максимальную прибыль или 0, если заработать нельзя.",
+      "examples": [
+        {
+          "input": "prices = [7,1,5,3,6,4]",
+          "output": "5",
+          "explanation": "Купить по 1, продать по 6"
+        },
+        {
+          "input": "prices = [7,6,4,3,1]",
+          "output": "0"
+        }
+      ],
+      "constraints": [
+        "1 ≤ len(prices) ≤ 10^5",
+        "0 ≤ prices[i] ≤ 10^4"
+      ],
+      "timeComplexity": "O(n)",
+      "spaceComplexity": "O(1)",
+      "idea": "Идём по дням и помним минимальную цену до текущего дня. Прибыль при продаже сегодня — цена минус этот минимум; берём максимум таких прибылей.",
+      "keyLine": "} else if p-minPrice > best {",
+      "solution": [
+        {
+          "code": "func maxProfit(prices []int) int {",
+          "indent": 0
+        },
+        {
+          "code": "minPrice := prices[0]",
+          "indent": 1
+        },
+        {
+          "code": "best := 0",
+          "indent": 1
+        },
+        {
+          "code": "for _, p := range prices[1:] {",
+          "indent": 1
+        },
+        {
+          "code": "if p < minPrice {",
+          "indent": 2
+        },
+        {
+          "code": "minPrice = p",
+          "indent": 3
+        },
+        {
+          "code": "} else if p-minPrice > best {",
+          "indent": 2
+        },
+        {
+          "code": "best = p - minPrice",
+          "indent": 3
+        },
+        {
+          "code": "}",
+          "indent": 2
+        },
+        {
+          "code": "}",
+          "indent": 1
+        },
+        {
+          "code": "return best",
+          "indent": 1
+        },
+        {
+          "code": "}",
+          "indent": 0
+        }
+      ]
+    },
+    {
+      "id": "valid-anagram",
+      "number": 242,
+      "title": "Valid Anagram",
+      "difficulty": "EASY",
+      "pattern": "Counting",
+      "statement": "Даны строки s и t из строчных латинских букв. Определите, является ли t анаграммой s, то есть состоит ли из тех же букв в том же количестве.",
+      "examples": [
+        {
+          "input": "s = \"anagram\", t = \"nagaram\"",
+          "output": "true"
+        },
+        {
+          "input": "s = \"rat\", t = \"car\"",
+          "output": "false"
+        }
+      ],
+      "constraints": [
+        "1 ≤ len(s), len(t) ≤ 5·10^4",
+        "s и t состоят из строчных латинских букв"
+      ],
+      "timeComplexity": "O(n)",
+      "spaceComplexity": "O(1)",
+      "idea": "Считаем буквы в массиве из 26 счётчиков: для s прибавляем, для t вычитаем. Строки — анаграммы, если в конце все счётчики равны нулю.",
+      "keyLine": "count[t[i]-'a']--",
+      "solution": [
+        {
+          "code": "func isAnagram(s string, t string) bool {",
+          "indent": 0
+        },
+        {
+          "code": "if len(s) != len(t) {",
+          "indent": 1
+        },
+        {
+          "code": "return false",
+          "indent": 2
+        },
+        {
+          "code": "}",
+          "indent": 1
+        },
+        {
+          "code": "var count [26]int",
+          "indent": 1
+        },
+        {
+          "code": "for i := 0; i < len(s); i++ {",
+          "indent": 1
+        },
+        {
+          "code": "count[s[i]-'a']++",
+          "indent": 2
+        },
+        {
+          "code": "count[t[i]-'a']--",
+          "indent": 2
+        },
+        {
+          "code": "}",
+          "indent": 1
+        },
+        {
+          "code": "for _, c := range count {",
+          "indent": 1
+        },
+        {
+          "code": "if c != 0 {",
+          "indent": 2
+        },
+        {
+          "code": "return false",
+          "indent": 3
+        },
+        {
+          "code": "}",
+          "indent": 2
+        },
+        {
+          "code": "}",
+          "indent": 1
+        },
+        {
+          "code": "return true",
+          "indent": 1
+        },
+        {
+          "code": "}",
+          "indent": 0
+        }
+      ]
+    },
+    {
+      "id": "maximum-subarray",
+      "number": 53,
+      "title": "Maximum Subarray",
+      "difficulty": "MEDIUM",
+      "pattern": "Kadane",
+      "statement": "Дан массив целых чисел nums. Найдите непустой непрерывный подмассив с максимальной суммой и верните эту сумму.",
+      "examples": [
+        {
+          "input": "nums = [-2,1,-3,4,-1,2,1,-5,4]",
+          "output": "6",
+          "explanation": "Подмассив [4,-1,2,1]"
+        },
+        {
+          "input": "nums = [5,4,-1,7,8]",
+          "output": "23"
+        }
+      ],
+      "constraints": [
+        "1 ≤ len(nums) ≤ 10^5",
+        "-10^4 ≤ nums[i] ≤ 10^4"
+      ],
+      "timeComplexity": "O(n)",
+      "spaceComplexity": "O(1)",
+      "idea": "cur — лучшая сумма подмассива, который заканчивается на текущем элементе: либо продолжаем прошлый подмассив, либо начинаем новый с x. Ответ — максимум cur за всё время.",
+      "keyLine": "cur = max(x, cur+x)",
+      "solution": [
+        {
+          "code": "func maxSubArray(nums []int) int {",
+          "indent": 0
+        },
+        {
+          "code": "cur, best := nums[0], nums[0]",
+          "indent": 1
+        },
+        {
+          "code": "for _, x := range nums[1:] {",
+          "indent": 1
+        },
+        {
+          "code": "cur = max(x, cur+x)",
+          "indent": 2
+        },
+        {
+          "code": "best = max(best, cur)",
+          "indent": 2
+        },
+        {
+          "code": "}",
+          "indent": 1
+        },
+        {
+          "code": "return best",
+          "indent": 1
+        },
+        {
+          "code": "}",
+          "indent": 0
+        }
+      ]
+    },
+    {
+      "id": "climbing-stairs",
+      "number": 70,
+      "title": "Climbing Stairs",
+      "difficulty": "EASY",
+      "pattern": "Dynamic Programming",
+      "statement": "Лестница из n ступенек. За один шаг можно подняться на 1 или на 2 ступеньки. Сколькими способами можно добраться до верха?",
+      "examples": [
+        {
+          "input": "n = 2",
+          "output": "2",
+          "explanation": "1+1 или 2"
+        },
+        {
+          "input": "n = 3",
+          "output": "3",
+          "explanation": "1+1+1, 1+2, 2+1"
+        }
+      ],
+      "constraints": [
+        "1 ≤ n ≤ 45"
+      ],
+      "timeComplexity": "O(n)",
+      "spaceComplexity": "O(1)",
+      "idea": "На ступеньку i можно прийти с i-1 или с i-2, поэтому ways(i) = ways(i-1) + ways(i-2). Это числа Фибоначчи, достаточно хранить два последних значения.",
+      "keyLine": "prev, cur = cur, prev+cur",
+      "solution": [
+        {
+          "code": "func climbStairs(n int) int {",
+          "indent": 0
+        },
+        {
+          "code": "prev, cur := 1, 1",
+          "indent": 1
+        },
+        {
+          "code": "for i := 2; i <= n; i++ {",
+          "indent": 1
+        },
+        {
+          "code": "prev, cur = cur, prev+cur",
+          "indent": 2
+        },
+        {
+          "code": "}",
+          "indent": 1
+        },
+        {
+          "code": "return cur",
+          "indent": 1
+        },
+        {
+          "code": "}",
+          "indent": 0
+        }
+      ]
+    }
+  ]
+}
