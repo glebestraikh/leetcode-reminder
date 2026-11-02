@@ -1,5 +1,4 @@
 {
-  "contentVersion": 1,
   "problems": [
     {
       "id": "two-sum",
@@ -27,7 +26,6 @@
       "timeComplexity": "O(n)",
       "spaceComplexity": "O(n)",
       "idea": "Идём по массиву один раз и для каждого числа x проверяем, встречалось ли раньше дополнение target - x. Уже виденные числа храним в map: число → индекс.",
-      "keyLine": "if j, ok := seen[target-x]; ok {",
       "solution": [
         {
           "code": "func twoSum(nums []int, target int) []int {",
@@ -99,7 +97,6 @@
       "timeComplexity": "O(n)",
       "spaceComplexity": "O(n)",
       "idea": "Открывающие скобки кладём в стек. На закрывающей скобке вершина стека должна быть парной открывающей, тогда снимаем её. В конце стек должен быть пустым.",
-      "keyLine": "if len(stack) == 0 || stack[len(stack)-1] != open {",
       "solution": [
         {
           "code": "func isValid(s string) bool {",
@@ -192,7 +189,6 @@
       "timeComplexity": "O(log n)",
       "spaceComplexity": "O(1)",
       "idea": "Держим границы left и right. Смотрим на середину: если там target — нашли, если меньше — ищем справа, если больше — слева. Цикл идёт, пока left <= right.",
-      "keyLine": "mid := left + (right-left)/2",
       "solution": [
         {
           "code": "func search(nums []int, target int) int {",
@@ -281,7 +277,6 @@
       "timeComplexity": "O(n)",
       "spaceComplexity": "O(1)",
       "idea": "Идём по дням и помним минимальную цену до текущего дня. Прибыль при продаже сегодня — цена минус этот минимум; берём максимум таких прибылей.",
-      "keyLine": "} else if p-minPrice > best {",
       "solution": [
         {
           "code": "func maxProfit(prices []int) int {",
@@ -357,7 +352,6 @@
       "timeComplexity": "O(n)",
       "spaceComplexity": "O(1)",
       "idea": "Считаем буквы в массиве из 26 счётчиков: для s прибавляем, для t вычитаем. Строки — анаграммы, если в конце все счётчики равны нулю.",
-      "keyLine": "count[t[i]-'a']--",
       "solution": [
         {
           "code": "func isAnagram(s string, t string) bool {",
@@ -450,7 +444,6 @@
       "timeComplexity": "O(n)",
       "spaceComplexity": "O(1)",
       "idea": "cur — лучшая сумма подмассива, который заканчивается на текущем элементе: либо продолжаем прошлый подмассив, либо начинаем новый с x. Ответ — максимум cur за всё время.",
-      "keyLine": "cur = max(x, cur+x)",
       "solution": [
         {
           "code": "func maxSubArray(nums []int) int {",
@@ -511,7 +504,6 @@
       "timeComplexity": "O(n)",
       "spaceComplexity": "O(1)",
       "idea": "На ступеньку i можно прийти с i-1 или с i-2, поэтому ways(i) = ways(i-1) + ways(i-2). Это числа Фибоначчи, достаточно хранить два последних значения.",
-      "keyLine": "prev, cur = cur, prev+cur",
       "solution": [
         {
           "code": "func climbStairs(n int) int {",

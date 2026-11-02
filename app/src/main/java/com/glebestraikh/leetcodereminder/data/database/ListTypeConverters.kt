@@ -3,10 +3,9 @@ package com.glebestraikh.leetcodereminder.data.database
 import androidx.room.TypeConverter
 import com.glebestraikh.leetcodereminder.data.database.model.CodeLine
 import com.glebestraikh.leetcodereminder.data.database.model.Example
-import kotlinx.serialization.decodeFromString
-import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.Json
 
+@Suppress("unused")
 object ListTypeConverters {
     @TypeConverter
     fun toStringList(value: String): List<String> {
