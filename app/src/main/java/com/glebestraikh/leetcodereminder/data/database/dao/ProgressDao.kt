@@ -8,5 +8,5 @@ import kotlinx.coroutines.flow.Flow
 @Dao
 abstract class ProgressDao : BaseDao<Progress> {
     @Query("SELECT * FROM progress WHERE problem_id = :problemId")
-    abstract fun progressForProblemId(problemId: String): Flow<Progress?>
+    abstract fun getProgress(problemId: String): Flow<Progress?>
 }
