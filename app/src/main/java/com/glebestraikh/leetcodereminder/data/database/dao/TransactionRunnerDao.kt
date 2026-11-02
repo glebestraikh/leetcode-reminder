@@ -3,7 +3,10 @@ package com.glebestraikh.leetcodereminder.data.database.dao
 import androidx.room.Dao
 import androidx.room.Ignore
 import androidx.room.Transaction
-import com.glebestraikh.leetcodereminder.data.repository.TransactionRunner
+
+interface TransactionRunner {
+    suspend operator fun invoke(tx: suspend () -> Unit)
+}
 
 @Dao
 abstract class TransactionRunnerDao : TransactionRunner {
