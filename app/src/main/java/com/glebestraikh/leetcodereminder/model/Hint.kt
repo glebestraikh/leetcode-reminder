@@ -1,5 +1,8 @@
-package com.glebestraikh.leetcodereminder.domain.model
+package com.glebestraikh.leetcodereminder.model
 
+import androidx.compose.runtime.Immutable
+
+@Immutable
 data class Hint(
     val type: HintType,
     val text: String,
@@ -7,8 +10,6 @@ data class Hint(
 
 enum class HintType {
     COMPLEXITY,
-    PATTERN,
     IDEA,
-    KEY_LINE,
     SOLUTION,
 }
