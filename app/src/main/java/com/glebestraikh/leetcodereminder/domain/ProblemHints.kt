@@ -1,13 +1,15 @@
 package com.glebestraikh.leetcodereminder.domain
 
-import com.glebestraikh.leetcodereminder.domain.model.Hint
-import com.glebestraikh.leetcodereminder.domain.model.HintType
-import com.glebestraikh.leetcodereminder.domain.model.Problem
+import com.glebestraikh.leetcodereminder.model.Hint
+import com.glebestraikh.leetcodereminder.model.HintType
+import com.glebestraikh.leetcodereminder.model.ProblemInfo
 
-fun Problem.hints(): List<Hint> = listOf(
-    Hint(HintType.COMPLEXITY, "Время: $timeComplexity, память: $spaceComplexity"),
-    Hint(HintType.PATTERN, pattern),
+/**
+ * Hints in the order they are revealed: from a small nudge to the full solution.
+ * The pattern is not a hint: the problem screen shows it right after the description.
+ */
+fun ProblemInfo.hints(): List<Hint> = listOf(
+    Hint(HintType.COMPLEXITY, "Time: $timeComplexity, space: $spaceComplexity"),
     Hint(HintType.IDEA, idea),
-    Hint(HintType.KEY_LINE, keyLine),
-    Hint(HintType.SOLUTION, solution.joinToString(separator = "\n") { "    ".repeat(it.indent) + it.code }),
+    Hint(HintType.SOLUTION, solution.replace("\t", "    ")),
 )
