@@ -1,0 +1,43 @@
+{
+  "formatVersion": 1,
+  "database": {
+    "version": 1,
+    "identityHash": "763c295fea9d961d1f59bee37a9c92d6",
+    "entities": [
+      {
+        "tableName": "progress",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`problem_number` INTEGER NOT NULL, `last_rating` TEXT NOT NULL, `solved_count` INTEGER NOT NULL, PRIMARY KEY(`problem_number`))",
+        "fields": [
+          {
+            "fieldPath": "problemNumber",
+            "columnName": "problem_number",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "lastRating",
+            "columnName": "last_rating",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "solvedCount",
+            "columnName": "solved_count",
+            "affinity": "INTEGER",
+            "notNull": true
+          }
+        ],
+        "primaryKey": {
+          "autoGenerate": false,
+          "columnNames": [
+            "problem_number"
+          ]
+        }
+      }
+    ],
+    "setupQueries": [
+      "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '763c295fea9d961d1f59bee37a9c92d6')"
+    ]
+  }
+}
