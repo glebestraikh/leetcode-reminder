@@ -1,3 +1,49 @@
 <resources>
     <string name="app_name">LeetCode Reminder</string>
+
+    <string name="action_back">Back</string>
+
+    <string name="difficulty_easy">Easy</string>
+    <string name="difficulty_medium">Medium</string>
+    <string name="difficulty_hard">Hard</string>
+
+    <!-- Problem list -->
+    <string name="problem_list_title">Problems</string>
+    <string name="problem_list_empty">No problems found</string>
+    <string name="problem_solved">Solved</string>
+    <string name="an_error_has_occurred">Could not load the problems</string>
+
+    <!-- Problem details -->
+    <string name="problem_title">Problem</string>
+    <string name="problem_not_found">Problem not found</string>
+    <plurals name="problem_solved_count">
+        <item quantity="one">Solved %d time</item>
+        <item quantity="other">Solved %d times</item>
+    </plurals>
+    <string name="problem_pattern">Pattern: %1$s</string>
+    <string name="problem_hints_title">Hints</string>
+    <string name="problem_action_open_leetcode">Open on LeetCode</string>
+
+    <string name="hint_complexity">Recommended Time &amp; Space Complexity</string>
+    <string name="hint_idea">Idea</string>
+    <string name="hint_solution">Solution</string>
+    <string name="hint_reveal">Tap to reveal</string>
+
+    <!-- Solve -->
+    <string name="solve_title">Build the solution</string>
+    <string name="solve_mistakes">Mistakes: %1$d</string>
+    <string name="solve_section_blocks">Blocks</string>
+    <string name="solve_status_wrong">Wrong blocks: %1$d. Tap a block to take it back.</string>
+    <string name="solve_status_correct">Correct!</string>
+    <string name="solve_action_reset">Reset</string>
+    <string name="solve_action_check">Check</string>
+    <string name="solve_action_continue">Continue</string>
+
+    <string name="rating_save_failed">Could not save your rating. Select a rating to try again.</string>
+
+    <!-- Rating -->
+    <string name="rating_question">How well do you remember it?</string>
+    <string name="rating_forgot">Forgot</string>
+    <string name="rating_need_to_repeat">Need to repeat</string>
+    <string name="rating_remember_well">Remember well</string>
 </resources>
