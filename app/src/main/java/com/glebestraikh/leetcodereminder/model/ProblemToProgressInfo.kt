@@ -1,7 +1,6 @@
 package com.glebestraikh.leetcodereminder.model
 
 import androidx.compose.runtime.Immutable
-import com.glebestraikh.leetcodereminder.data.database.model.Problem
 import com.glebestraikh.leetcodereminder.data.database.model.Progress
 
 @Immutable

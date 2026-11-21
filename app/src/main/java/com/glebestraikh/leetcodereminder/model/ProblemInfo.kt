@@ -1,8 +1,6 @@
 package com.glebestraikh.leetcodereminder.model
 
 import androidx.compose.runtime.Immutable
-import com.glebestraikh.leetcodereminder.data.database.model.Difficulty
-import com.glebestraikh.leetcodereminder.data.database.model.Problem
 
 /**
  * External data layer representation of a problem.
