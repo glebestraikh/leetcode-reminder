@@ -3,7 +3,7 @@ package com.glebestraikh.leetcodereminder.ui.home
 import com.glebestraikh.leetcodereminder.data.problems.ProblemRepository
 import com.glebestraikh.leetcodereminder.data.testing.repository.TestProblemRepository
 import com.glebestraikh.leetcodereminder.data.testing.repository.TestProgressRepository
-import com.glebestraikh.leetcodereminder.domain.ProblemTopicsUseCase
+import com.glebestraikh.leetcodereminder.domain.ProblemCatalog
 import com.glebestraikh.leetcodereminder.model.Problem
 import com.glebestraikh.leetcodereminder.testing.MainDispatcherRule
 import kotlinx.coroutines.CompletableDeferred
@@ -28,7 +28,7 @@ class HomeViewModelTest {
         val repository = object : ProblemRepository by TestProblemRepository() {
             override fun getProblemsSortedByTopicAndDifficulty() = flow { emit(catalog.await()) }
         }
-        val viewModel = HomeViewModel(ProblemTopicsUseCase(repository, TestProgressRepository()))
+        val viewModel = HomeViewModel(ProblemCatalog(repository, TestProgressRepository()))
         backgroundScope.launch(UnconfinedTestDispatcher(testScheduler)) { viewModel.state.collect() }
 
         assertTrue(viewModel.state.value.isLoading)

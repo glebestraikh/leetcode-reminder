@@ -13,12 +13,12 @@ import org.junit.Assert.assertTrue
 import org.junit.Before
 import org.junit.Test
 
-class ProblemTopicsUseCaseTest {
+class ProblemCatalogTest {
 
     private val problemRepository = TestProblemRepository()
     private val progressRepository = TestProgressRepository()
 
-    val useCase = ProblemTopicsUseCase(problemRepository = problemRepository, progressRepository = progressRepository)
+    val catalog = ProblemCatalog(problemRepository = problemRepository, progressRepository = progressRepository)
 
     @Before
     fun setUp() {
@@ -34,14 +34,14 @@ class ProblemTopicsUseCaseTest {
 
     @Test
     fun topicsAreOrderedFromEasyToHard() = runTest {
-        val topics = useCase().first()
+        val topics = catalog.observeTopics().first()
 
         assertEquals(listOf("Two Pointers", "Sliding Window"), topics.map { it.name })
     }
 
     @Test
     fun problemsGoFromEasyToHard() = runTest {
-        val problems = useCase().first().first().problems
+        val problems = catalog.observeTopics().first().first().problems
 
         assertEquals(listOf(125, 392, 11), problems.map { it.problem.number })
     }
@@ -50,7 +50,7 @@ class ProblemTopicsUseCaseTest {
     fun solvedProblemsAreMarked() = runTest {
         progressRepository.setProgress(listOf(ProgressInfo(problemNumber = 11, lastRating = Rating.REMEMBER_WELL, solvedCount = 1)))
 
-        val problems = useCase().first().first().problems
+        val problems = catalog.observeTopics().first().first().problems
 
         assertTrue(problems.first { it.problem.number == 11 }.progress.isSolved)
         assertFalse(problems.first { it.problem.number == 125 }.progress.isSolved)

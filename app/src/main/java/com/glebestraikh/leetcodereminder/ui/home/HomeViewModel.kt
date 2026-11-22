@@ -4,7 +4,7 @@ import androidx.compose.runtime.Immutable
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.glebestraikh.leetcodereminder.Graph
-import com.glebestraikh.leetcodereminder.domain.ProblemTopicsUseCase
+import com.glebestraikh.leetcodereminder.domain.ProblemCatalog
 import com.glebestraikh.leetcodereminder.model.ProblemTopic
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
@@ -13,10 +13,10 @@ import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.stateIn
 
 class HomeViewModel(
-    problemTopicsUseCase: ProblemTopicsUseCase = Graph.problemTopicsUseCase,
+    problemCatalog: ProblemCatalog = Graph.problemCatalog,
 ) : ViewModel() {
 
-    val state: StateFlow<HomeScreenUiState> = problemTopicsUseCase()
+    val state: StateFlow<HomeScreenUiState> = problemCatalog.observeTopics()
         .map { topics -> HomeScreenUiState(isLoading = false, topics = topics) }
         .catch { throwable ->
             emit(
@@ -28,8 +28,6 @@ class HomeViewModel(
         }
         .stateIn(
             scope = viewModelScope,
-            // When the screen has been hidden for more than 5 seconds, the database subscription stops.
-            // 5 seconds so that a screen rotation does not restart the queries.
             started = SharingStarted.WhileSubscribed(5_000),
             initialValue = HomeScreenUiState(),
         )

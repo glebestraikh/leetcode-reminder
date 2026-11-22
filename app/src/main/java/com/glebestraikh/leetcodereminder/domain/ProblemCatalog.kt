@@ -8,24 +8,24 @@ import com.glebestraikh.leetcodereminder.model.ProgressInfo
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.combine
 
-class ProblemTopicsUseCase(
+class ProblemCatalog(
     private val problemRepository: ProblemRepository,
     private val progressRepository: ProgressRepository,
 ) {
-    operator fun invoke(): Flow<List<ProblemTopic>> =
+    fun observeTopics(): Flow<List<ProblemTopic>> =
         combine(
             problemRepository.getProblemsSortedByTopicAndDifficulty(),
             progressRepository.getAllProgress(),
         ) { problems, progress ->
             val progressByNumber = progress.associateBy { it.problemNumber }
-            problems
-                .map { problem ->
+            problems.map { problem ->
                     ProblemWithProgress(
                         problem = problem,
                         progress = progressByNumber[problem.number] ?: ProgressInfo(problemNumber = problem.number),
                     )
                 }
                 .groupBy { it.problem.topic }
-                .map { (topic, problemsWithProgress) -> ProblemTopic(name = topic, problems = problemsWithProgress) }
+                .map { (topic, problemsWithProgress) ->
+                    ProblemTopic(name = topic, problems = problemsWithProgress) }
         }
 }
