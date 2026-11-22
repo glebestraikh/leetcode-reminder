@@ -208,3 +208,11 @@ private fun PreviewHome() {
         )
     }
 }
+
+@Preview(name = "Empty catalog")
+@Composable
+private fun EmptyHomePreview() {
+    LeetCodeReminderTheme {
+        HomeScreen(uiState = HomeScreenUiState(isLoading = false), navigateToProblemDetails = {})
+    }
+}

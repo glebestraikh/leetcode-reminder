@@ -28,6 +28,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.glebestraikh.leetcodereminder.R
 import com.glebestraikh.leetcodereminder.model.PuzzleBlock
@@ -36,6 +37,7 @@ import com.glebestraikh.leetcodereminder.model.PuzzlePart
 import com.glebestraikh.leetcodereminder.model.Rating
 import com.glebestraikh.leetcodereminder.ui.shared.CodeText
 import com.glebestraikh.leetcodereminder.ui.shared.labelRes
+import com.glebestraikh.leetcodereminder.ui.theme.LeetCodeReminderTheme
 
 @Composable
 fun SolutionBuilder(
@@ -265,6 +267,29 @@ fun SolveBottomPanel(
                         modifier = Modifier.weight(1f),
                     ) {
                         Text(text = stringResource(R.string.solve_action_check))
+                    }
+                }
+            }
+        }
+    }
+}
+
+@Preview(name = "Puzzle blocks and slots")
+@Composable
+private fun PuzzlePiecesPreview() {
+    LeetCodeReminderTheme {
+        Surface {
+            Column(
+                modifier = Modifier.padding(16.dp),
+                verticalArrangement = Arrangement.spacedBy(8.dp),
+            ) {
+                Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
+                    EmptySlot(isTarget = false, onClick = {})
+                    EmptySlot(isTarget = true, onClick = {})
+                }
+                Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
+                    BlockStyle.entries.forEach { style ->
+                        ChunkyBlock(text = "return", style = style, onClick = {})
                     }
                 }
             }

@@ -253,29 +253,35 @@ private val HintType.titleRes: Int
         HintType.SOLUTION -> R.string.hint_solution
     }
 
-@Preview
-@Composable
-private fun ProblemDetailsScreenPreview() {
-    val problem = PreviewProblems[0]
+private fun previewAttempt(): ProblemUiState.Ready {
+    val problem = PreviewProblems.first()
     val puzzle = SolutionSplitter.createPuzzle(problem.solution, Random(1))
+    val firstBlock = puzzle.blocks.first { it.text == puzzle.slotAnswers.first() }
+    return ProblemUiState.Ready(
+        problem = problem,
+        progress = PreviewProgress.first(),
+        hints = problem.hints(),
+        revealedHints = setOf(HintType.IDEA),
+        puzzle = puzzle,
+        slots = puzzle.slotAnswers.indices.map { if (it == 0) firstBlock else null },
+        availableBlocks = puzzle.blocks.filterNot { it == firstBlock },
+        targetSlot = 1,
+        wrongSlots = emptySet(),
+        mistakes = 0,
+        isSolved = false,
+        savedRating = null,
+    )
+}
+
+@Preview(name = "Attempt in progress")
+@Composable
+private fun ProblemDetailsScreenPreview() = PreviewDetails(previewAttempt())
+
+@Composable
+private fun PreviewDetails(state: ProblemUiState) {
     LeetCodeReminderTheme {
         ProblemDetailsScreen(
-            uiState = ProblemUiState.Ready(
-                problem = problem,
-                progress = PreviewProgress[0],
-                hints = problem.hints(),
-                revealedHints = setOf(HintType.IDEA),
-                puzzle = puzzle,
-                slots = puzzle.slotAnswers.indices.map { slot ->
-                    if (slot == 0) puzzle.blocks.first { it.text == puzzle.slotAnswers[0] } else null
-                },
-                availableBlocks = puzzle.blocks.filterNot { it.text == puzzle.slotAnswers[0] },
-                targetSlot = 1,
-                wrongSlots = emptySet(),
-                mistakes = 1,
-                isSolved = false,
-                savedRating = null,
-            ),
+            uiState = state,
             onHintClick = {},
             onAvailableBlockClick = {},
             onSlotClick = {},
@@ -287,3 +293,82 @@ private fun ProblemDetailsScreenPreview() {
         )
     }
 }
+
+@Preview(name = "Hidden and revealed hints")
+@Composable
+private fun HintCardsPreview() {
+    LeetCodeReminderTheme {
+        Column(verticalArrangement = Arrangement.spacedBy(16.dp)) {
+            PreviewProblems.first().hints().forEach { hint ->
+                HintCard(hint = hint, isRevealed = hint.type == HintType.IDEA, onReveal = {})
+            }
+        }
+    }
+}
+
+@Preview(name = "Problem · Loading")
+@Composable
+private fun ProblemLoadingPreview() = PreviewDetails(ProblemUiState.Loading)
+
+@Preview(name = "Problem · NotFound")
+@Composable
+private fun ProblemNotFoundPreview() = PreviewDetails(ProblemUiState.NotFound)
+
+@Preview(name = "Problem · Error")
+@Composable
+private fun ProblemErrorPreview() = PreviewDetails(ProblemUiState.Error)
+
+@Composable
+private fun PreviewPanel(state: ProblemUiState.Ready) {
+    LeetCodeReminderTheme {
+        SolveBottomPanel(
+            uiState = state,
+            onCheck = {},
+            onReset = {},
+            onRatingSelected = {},
+            onContinue = {},
+        )
+    }
+}
+
+private fun filledAttempt(): ProblemUiState.Ready {
+    val attempt = previewAttempt()
+    val remaining = attempt.puzzle.blocks.toMutableList()
+    val slots = attempt.puzzle.slotAnswers.map { answer ->
+        remaining.removeAt(remaining.indexOfFirst { it.text == answer })
+    }
+    return attempt.copy(slots = slots, availableBlocks = emptyList(), targetSlot = null)
+}
+
+@Preview(name = "Check enabled")
+@Composable
+private fun CheckEnabledPreview() = PreviewPanel(filledAttempt())
+
+@Preview(name = "Incorrect blocks")
+@Composable
+private fun IncorrectBlocksPreview() {
+    val attempt = filledAttempt()
+    val slots = attempt.slots.toMutableList()
+    val other = slots.indexOfFirst { it?.text != slots.first()?.text }
+    java.util.Collections.swap(slots, 0, other)
+    PreviewPanel(attempt.copy(slots = slots, mistakes = 1, wrongSlots = setOf(0, other)))
+}
+
+@Preview(name = "Choose rating")
+@Composable
+private fun ChooseRatingPreview() = PreviewPanel(filledAttempt().copy(isSolved = true))
+
+@Preview(name = "Saving rating")
+@Composable
+private fun SavingRatingPreview() =
+    PreviewPanel(filledAttempt().copy(isSolved = true, isSavingRating = true))
+
+@Preview(name = "Rating save failed")
+@Composable
+private fun RatingSaveFailedPreview() =
+    PreviewPanel(filledAttempt().copy(isSolved = true, ratingSaveFailed = true))
+
+@Preview(name = "Continue after rating")
+@Composable
+private fun SavedRatingPreview() =
+    PreviewPanel(filledAttempt().copy(isSolved = true, savedRating = Rating.REMEMBER_WELL))
