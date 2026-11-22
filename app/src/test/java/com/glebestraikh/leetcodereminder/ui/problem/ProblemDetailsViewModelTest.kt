@@ -178,14 +178,14 @@ class ProblemDetailsViewModelTest {
         subscribe(first)
         first.onHintClick(HintType.IDEA)
         first.place(first.answers[0])
-        val order = first.readyState.availableBlocks.map { it.id }
+        val order = first.readyState.availableBlocks.map { it.index }
 
         // A new ViewModel with the same SavedStateHandle, as after a rotation or process death.
         val restored = createViewModel(savedStateHandle)
         subscribe(restored)
 
         assertEquals(first.answers[0], restored.readyState.slots[0]?.text)
-        assertEquals(order, restored.readyState.availableBlocks.map { it.id })
+        assertEquals(order, restored.readyState.availableBlocks.map { it.index })
         assertEquals(setOf(HintType.IDEA), restored.readyState.revealedHints)
     }
 

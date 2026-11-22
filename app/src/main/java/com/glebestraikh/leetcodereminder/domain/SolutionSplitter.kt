@@ -1,6 +1,5 @@
 package com.glebestraikh.leetcodereminder.domain
 
-import com.glebestraikh.leetcodereminder.model.CodeLine
 import com.glebestraikh.leetcodereminder.model.Puzzle
 import com.glebestraikh.leetcodereminder.model.PuzzleBlock
 import com.glebestraikh.leetcodereminder.model.PuzzleLine
@@ -47,7 +46,7 @@ object SolutionSplitter {
 
         val blocks = slotAnswers
             .shuffled(random)
-            .mapIndexed { id, text -> PuzzleBlock(id = id, text = text) }
+            .mapIndexed { index, text -> PuzzleBlock(index = index, text = text) }
 
         return Puzzle(lines = lines, slotAnswers = slotAnswers, blocks = blocks)
     }
@@ -57,7 +56,7 @@ object SolutionSplitter {
      * leading whitespace: a tab is one level, and for spaces the step is the smallest space indent
      * in the solution, so code indented with 2 or 4 spaces works too.
      */
-    fun splitIntoLines(solution: String): List<CodeLine> {
+    internal fun splitIntoLines(solution: String): List<CodeLine> {
         val lines = solution.lines().filter { it.isNotBlank() }
         val indents = lines.map { line -> line.takeWhile { it == ' ' || it == '\t' } }
         val spacesPerLevel = indents
@@ -136,3 +135,8 @@ object SolutionSplitter {
     private val CodeLine.isSkeleton: Boolean
         get() = indent == 0 || code == "} else {" || code.all { it in "}])" }
 }
+
+internal class CodeLine(
+    val code: String,
+    val indent: Int = 0,
+)

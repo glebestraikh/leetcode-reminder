@@ -125,8 +125,8 @@ class ProblemDetailsViewModel(
                     hints = hints,
                     revealedHints = if (session.isSolved) hints.map { it.type }.toSet() else session.revealedHints,
                     puzzle = puzzle,
-                    slots = session.slots.map { id -> id?.let { puzzle.blocks[it] } },
-                    availableBlocks = puzzle.blocks.filterNot { it.id in session.slots },
+                    slots = session.slots.map { index -> index?.let { puzzle.blocks[it] } },
+                    availableBlocks = puzzle.blocks.filterNot { it.index in session.slots },
                     targetSlot = session.targetSlot,
                     wrongSlots = session.wrongSlots,
                     mistakes = session.mistakes,
@@ -163,7 +163,7 @@ class ProblemDetailsViewModel(
         if (current.isSolved || target == null) {
             current
         } else {
-            current.copy(slots = current.slots.replaced(target, block.id), selectedSlot = null, wrongSlots = emptySet())
+            current.copy(slots = current.slots.replaced(target, block.index), selectedSlot = null, wrongSlots = emptySet())
         }
     }
 
@@ -239,7 +239,7 @@ class ProblemDetailsViewModel(
     private data class Session(
         /** The blocks are shuffled with this seed. */
         val seed: Long,
-        /** Block id in each slot, null for an empty slot. */
+        /** Block index in each slot, null for an empty slot. */
         val slots: List<Int?> = emptyList(),
         /** The slot the user tapped to fill next. */
         val selectedSlot: Int? = null,

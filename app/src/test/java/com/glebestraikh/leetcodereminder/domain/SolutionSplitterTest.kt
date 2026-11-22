@@ -1,6 +1,5 @@
 package com.glebestraikh.leetcodereminder.domain
 
-import com.glebestraikh.leetcodereminder.model.CodeLine
 import com.glebestraikh.leetcodereminder.model.PuzzleLine
 import com.glebestraikh.leetcodereminder.model.PuzzlePart
 import org.junit.Assert.assertEquals
@@ -17,13 +16,13 @@ class SolutionSplitterTest {
 
         assertEquals(
             listOf(
-                CodeLine("func f() {", 0),
-                CodeLine("for {", 1),
-                CodeLine("return", 2),
-                CodeLine("}", 1),
-                CodeLine("}", 0),
+                "func f() {" to 0,
+                "for {" to 1,
+                "return" to 2,
+                "}" to 1,
+                "}" to 0,
             ),
-            SolutionSplitter.splitIntoLines(solution),
+            SolutionSplitter.splitIntoLines(solution).map { it.code to it.indent },
         )
     }
 
