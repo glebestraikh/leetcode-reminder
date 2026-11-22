@@ -12,10 +12,6 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import com.glebestraikh.leetcodereminder.R
 
-/**
- * The screen's top app bar. If [onBack] is passed, a back arrow appears on the left.
- * [actions] are shown on the right, for example a sort button.
- */
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun AppTopAppBar(

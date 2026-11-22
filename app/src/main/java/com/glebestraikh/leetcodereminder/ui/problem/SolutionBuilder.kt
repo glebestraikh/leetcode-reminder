@@ -37,11 +37,6 @@ import com.glebestraikh.leetcodereminder.model.Rating
 import com.glebestraikh.leetcodereminder.ui.shared.CodeText
 import com.glebestraikh.leetcodereminder.ui.shared.labelRes
 
-/**
- * Building the solution from blocks, as in Duolingo: the code with empty slots, and below it
- * the blocks. Tapping a block puts it into the highlighted slot. Tapping a placed block gives
- * it back. Tapping an empty slot highlights it, so the next block goes there.
- */
 @Composable
 fun SolutionBuilder(
     uiState: ProblemUiState.Ready,
@@ -53,7 +48,9 @@ fun SolutionBuilder(
         modifier = modifier,
         verticalArrangement = Arrangement.spacedBy(16.dp),
     ) {
-        Text(text = stringResource(R.string.solve_title), style = MaterialTheme.typography.titleMedium)
+        Text(text = stringResource(R.string.solve_title),
+            style = MaterialTheme.typography.titleMedium,
+        )
         LinearProgressIndicator(
             progress = { uiState.filledSlotCount.toFloat() / uiState.slots.size.coerceAtLeast(1) },
             modifier = Modifier
@@ -67,16 +64,16 @@ fun SolutionBuilder(
             }
         }
         if (uiState.availableBlocks.isNotEmpty()) {
-            Text(text = stringResource(R.string.solve_section_blocks), style = MaterialTheme.typography.titleSmall)
-            BlockBank(blocks = uiState.availableBlocks, onBlockClick = onAvailableBlockClick)
+            Text(text = stringResource(R.string.solve_section_blocks),
+                style = MaterialTheme.typography.titleSmall,
+            )
+            BlockBank(blocks = uiState.availableBlocks,
+                onBlockClick = onAvailableBlockClick,
+            )
         }
     }
 }
 
-/**
- * One line of the solution, shifted right by its indent. Fixed parts are plain code,
- * slots are empty boxes or placed blocks.
- */
 @OptIn(ExperimentalLayoutApi::class)
 @Composable
 private fun CodeLineRow(
@@ -158,10 +155,6 @@ private fun BlockBank(
 
 private enum class BlockStyle { Normal, Wrong, Correct }
 
-/**
- * A rounded block with a darker bottom edge, so it looks like a key you can press.
- * The edge is the outer box showing 3dp below the inner one.
- */
 @Composable
 private fun ChunkyBlock(
     text: String,
@@ -194,11 +187,6 @@ private fun ChunkyBlock(
     }
 }
 
-/**
- * The bottom panel. Before a correct check it has Reset and Check and, after a wrong check,
- * a red message. After a correct check it turns green and asks how well the user remembers
- * the problem. The choice is saved at once, then Continue goes back to the home screen.
- */
 @Composable
 fun SolveBottomPanel(
     uiState: ProblemUiState.Ready,
@@ -237,7 +225,6 @@ fun SolveBottomPanel(
                         FilterChip(
                             selected = rating == uiState.savedRating,
                             onClick = { onRatingSelected(rating) },
-                            // A solve is rated once: after the choice the other options are locked.
                             enabled = !uiState.isSavingRating && (uiState.savedRating == null || rating == uiState.savedRating),
                             label = { Text(text = stringResource(rating.labelRes)) },
                         )

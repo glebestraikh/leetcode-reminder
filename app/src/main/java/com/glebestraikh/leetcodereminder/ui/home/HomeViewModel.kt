@@ -15,7 +15,6 @@ import kotlinx.coroutines.flow.stateIn
 class HomeViewModel(
     problemCatalog: ProblemCatalog = Graph.problemCatalog,
 ) : ViewModel() {
-
     val state: StateFlow<HomeScreenUiState> = problemCatalog.observeTopics()
         .map { topics -> HomeScreenUiState(isLoading = false, topics = topics) }
         .catch { throwable ->
@@ -37,6 +36,5 @@ class HomeViewModel(
 data class HomeScreenUiState(
     val isLoading: Boolean = true,
     val errorMessage: String? = null,
-    /** Topics from easy to hard. Each one is a tab. */
     val topics: List<ProblemTopic> = emptyList(),
 )

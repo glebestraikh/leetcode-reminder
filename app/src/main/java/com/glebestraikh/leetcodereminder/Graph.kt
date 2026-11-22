@@ -11,11 +11,6 @@ import com.glebestraikh.leetcodereminder.domain.ProblemCatalog
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 
-/**
- * A very simple global singleton dependency graph.
- *
- * For a real app, you would use something like Hilt/Dagger instead.
- */
 object Graph {
     lateinit var database: LeetCodeReminderDatabase
         private set

@@ -12,7 +12,7 @@ object SolutionSplitter {
     private val openBrackets = setOf("(", "[", "{")
     private val closeBrackets = setOf(")", "]", "}")
 
-    private const val MaxTokensPerBlock = 8
+    private const val MAX_TOKENS_PER_BLOCK = 8
 
     fun createPuzzle(solution: String, random: Random): Puzzle {
         val slotAnswers = mutableListOf<String>()
@@ -84,7 +84,7 @@ object SolutionSplitter {
 
         (listOf(0) + mainCuts + tokens.size).zipWithNext { start, end ->
             cuts += start
-            if (end - start > MaxTokensPerBlock) {
+            if (end - start > MAX_TOKENS_PER_BLOCK) {
                 cuts += (start + 1 until end).filter { depths[it] == 0 && isExtraCut(it) }
             }
         }

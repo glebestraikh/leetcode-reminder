@@ -10,7 +10,6 @@ import androidx.compose.ui.res.stringResource
 import com.glebestraikh.leetcodereminder.R
 import com.glebestraikh.leetcodereminder.model.Difficulty
 
-/** The problem difficulty shown in color, as on LeetCode. */
 @Composable
 fun DifficultyLabel(
     difficulty: Difficulty,

@@ -47,9 +47,6 @@ import com.glebestraikh.leetcodereminder.ui.shared.labelRes
 import com.glebestraikh.leetcodereminder.ui.theme.LeetCodeReminderTheme
 import kotlin.random.Random
 
-/**
- * Stateful version of the Problem details screen
- */
 @Composable
 fun ProblemDetailsScreen(
     viewModel: ProblemDetailsViewModel,
@@ -72,10 +69,6 @@ fun ProblemDetailsScreen(
     )
 }
 
-/**
- * Stateless version of the Problem details screen: the problem, the hints and, below them,
- * building the solution. The panel with Check stays at the bottom of the screen.
- */
 @Composable
 private fun ProblemDetailsScreen(
     uiState: ProblemUiState,
@@ -89,7 +82,8 @@ private fun ProblemDetailsScreen(
     navigateBack: () -> Unit,
     modifier: Modifier = Modifier,
 ) {
-    val title = (uiState as? ProblemUiState.Ready)?.problem?.let { "${it.number}. ${it.title}" }
+    val title = (uiState as? ProblemUiState.Ready)?.problem
+        ?.let { "${it.number}. ${it.title}" }
         ?: stringResource(R.string.problem_title)
     Scaffold(
         modifier = modifier,
@@ -176,7 +170,9 @@ private fun ProblemDetailsContent(
             Text(text = stringResource(R.string.problem_action_open_leetcode))
         }
 
-        Text(text = stringResource(R.string.problem_hints_title), style = MaterialTheme.typography.titleMedium)
+        Text(text = stringResource(R.string.problem_hints_title),
+            style = MaterialTheme.typography.titleMedium,
+            )
         uiState.hints.forEach { hint ->
             HintCard(
                 hint = hint,
@@ -194,10 +190,6 @@ private fun ProblemDetailsContent(
     }
 }
 
-/**
- * The difficulty and, once the problem was solved, a check mark, how many times it was solved
- * and how well the user said they remember it.
- */
 @Composable
 private fun ProblemHeader(uiState: ProblemUiState.Ready) {
     Row(
@@ -223,9 +215,6 @@ private fun ProblemHeader(uiState: ProblemUiState.Ready) {
     }
 }
 
-/**
- * A hint card. Tap it to see the hint. Hints are free: any of them can be opened at any time.
- */
 @Composable
 private fun HintCard(
     hint: Hint,
@@ -240,7 +229,9 @@ private fun HintCard(
                 .padding(16.dp),
             verticalArrangement = Arrangement.spacedBy(4.dp),
         ) {
-            Text(text = stringResource(hint.type.titleRes), style = MaterialTheme.typography.titleSmall)
+            Text(text = stringResource(hint.type.titleRes),
+                style = MaterialTheme.typography.titleSmall,
+            )
             when {
                 isRevealed && hint.type == HintType.SOLUTION -> CodeText(text = hint.text)
                 isRevealed -> Text(text = hint.text, style = MaterialTheme.typography.bodyMedium)

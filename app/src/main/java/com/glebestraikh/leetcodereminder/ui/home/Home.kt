@@ -49,8 +49,7 @@ fun MainScreen(
     navigateToProblemDetails: (Problem) -> Unit,
     viewModel: HomeViewModel = viewModel(),
 ) {
-    val homeScreenUiState by viewModel.state.collectAsStateWithLifecycle()
-    val uiState = homeScreenUiState
+    val uiState by viewModel.state.collectAsStateWithLifecycle()
     Box {
         HomeScreen(
             uiState = uiState,
@@ -73,7 +72,6 @@ private fun HomeScreenError(modifier: Modifier = Modifier) {
         ) {
             Text(
                 text = stringResource(id = R.string.an_error_has_occurred),
-                modifier = Modifier.padding(16.dp),
             )
         }
     }
@@ -81,7 +79,7 @@ private fun HomeScreenError(modifier: Modifier = Modifier) {
 
 @Preview
 @Composable
-fun HomeScreenErrorPreview() {
+private fun HomeScreenErrorPreview() {
     LeetCodeReminderTheme {
         HomeScreenError()
     }
@@ -93,8 +91,6 @@ private fun HomeScreen(
     navigateToProblemDetails: (Problem) -> Unit,
     modifier: Modifier = Modifier,
 ) {
-    // The open tab is pure UI state, so it lives here. rememberSaveable keeps it after a rotation,
-    // and a fresh start of the app always opens the first topic.
     var selectedTab by rememberSaveable { mutableIntStateOf(0) }
 
     Scaffold(
@@ -115,7 +111,6 @@ private fun HomeScreen(
                     )
                 }
                 else -> {
-                    // A topic can disappear after a content update, so the index is kept in range.
                     val tab = selectedTab.coerceIn(0, uiState.topics.lastIndex)
                     TopicTabs(
                         topics = uiState.topics,
@@ -137,9 +132,6 @@ private fun HomeScreen(
     }
 }
 
-/**
- * One tab per topic, from easy to hard. The tabs scroll sideways when they do not fit on the screen.
- */
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 private fun TopicTabs(
@@ -161,10 +153,6 @@ private fun TopicTabs(
     }
 }
 
-/**
- * A problem row: the title, then the pattern with the difficulty. Once the problem was solved,
- * a check mark and the rating the user gave after the last solve.
- */
 @Composable
 private fun ProblemListItem(
     item: ProblemWithProgress,

@@ -19,10 +19,7 @@ fun LeetCodeReminderApp(appState: LeetCodeReminderAppState = rememberLeetCodeRem
         backStack = appState.backStack,
         onBack = { appState.navigateBack() },
         entryDecorators = listOf(
-            // Saves the rememberSaveable state of every screen in the stack.
             rememberSaveableStateHolderNavEntryDecorator<NavKey>(),
-            // Scopes a ViewModel to its screen: it lives while the screen is in the stack,
-            // not for the whole lifetime of the Activity.
             rememberViewModelStoreNavEntryDecorator<NavKey>(),
         ),
         entryProvider = entryProvider {

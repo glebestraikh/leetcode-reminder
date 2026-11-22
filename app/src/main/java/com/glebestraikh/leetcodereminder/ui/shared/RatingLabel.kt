@@ -4,7 +4,6 @@ import androidx.annotation.StringRes
 import com.glebestraikh.leetcodereminder.R
 import com.glebestraikh.leetcodereminder.model.Rating
 
-/** The text of a rating, shown on the rating buttons and next to the check mark of a solved problem. */
 @get:StringRes
 val Rating.labelRes: Int
     get() = when (this) {

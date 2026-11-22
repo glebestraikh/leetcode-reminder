@@ -7,7 +7,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontFamily
 
-/** Text in a monospace font, for code and input data. */
 @Composable
 fun CodeText(
     text: String,
