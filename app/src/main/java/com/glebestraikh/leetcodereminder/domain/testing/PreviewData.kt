@@ -1,19 +1,20 @@
 package com.glebestraikh.leetcodereminder.domain.testing
 
 import com.glebestraikh.leetcodereminder.model.Difficulty
-import com.glebestraikh.leetcodereminder.model.ProblemInfo
-import com.glebestraikh.leetcodereminder.model.ProblemToProgressInfo
+import com.glebestraikh.leetcodereminder.model.Problem
 import com.glebestraikh.leetcodereminder.model.ProblemTopic
+import com.glebestraikh.leetcodereminder.model.ProblemWithProgress
 import com.glebestraikh.leetcodereminder.model.ProgressInfo
 import com.glebestraikh.leetcodereminder.model.Rating
 
 val PreviewProblems = listOf(
-    ProblemInfo(
+    Problem(
         number = 1,
         slug = "two-sum",
         title = "Two Sum",
         difficulty = Difficulty.EASY,
         topic = "Arrays & Hashing",
+        topicOrder = 0,
         pattern = "Hash Map",
         description = """
             Given an array of integers nums and an integer target, return the indices of the two different elements that add up to target.
@@ -39,12 +40,13 @@ val PreviewProblems = listOf(
             "\treturn nil\n" +
             "}",
     ),
-    ProblemInfo(
+    Problem(
         number = 125,
         slug = "valid-palindrome",
         title = "Valid Palindrome",
         difficulty = Difficulty.EASY,
         topic = "Two Pointers",
+        topicOrder = 1,
         pattern = "Two Pointers",
         description = """
             A phrase is a palindrome if, after keeping only letters and digits and ignoring case, it reads the same both ways.
@@ -77,10 +79,10 @@ val PreviewProgress = listOf(
 val PreviewProblemTopics = listOf(
     ProblemTopic(
         name = "Arrays & Hashing",
-        problems = listOf(ProblemToProgressInfo(problem = PreviewProblems[0], progress = PreviewProgress[0])),
+        problems = listOf(ProblemWithProgress(problem = PreviewProblems[0], progress = PreviewProgress[0])),
     ),
     ProblemTopic(
         name = "Two Pointers",
-        problems = listOf(ProblemToProgressInfo(problem = PreviewProblems[1], progress = PreviewProgress[1])),
+        problems = listOf(ProblemWithProgress(problem = PreviewProblems[1], progress = PreviewProgress[1])),
     ),
 )

@@ -13,12 +13,11 @@ import com.glebestraikh.leetcodereminder.domain.SolutionSplitter
 import com.glebestraikh.leetcodereminder.domain.hints
 import com.glebestraikh.leetcodereminder.model.Hint
 import com.glebestraikh.leetcodereminder.model.HintType
-import com.glebestraikh.leetcodereminder.model.ProblemInfo
+import com.glebestraikh.leetcodereminder.model.Problem
 import com.glebestraikh.leetcodereminder.model.ProgressInfo
 import com.glebestraikh.leetcodereminder.model.Puzzle
 import com.glebestraikh.leetcodereminder.model.PuzzleBlock
 import com.glebestraikh.leetcodereminder.model.Rating
-import com.glebestraikh.leetcodereminder.model.asExternalModel
 import kotlin.random.Random
 import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.flow.Flow
@@ -44,7 +43,7 @@ sealed interface ProblemUiState {
     data object Error : ProblemUiState
 
     data class Ready(
-        val problem: ProblemInfo,
+        val problem: Problem,
         val progress: ProgressInfo,
         val hints: List<Hint>,
         /** Hints the user opened. Any hint can be opened at any time. After a solve all are open. */
@@ -98,7 +97,7 @@ class ProblemDetailsViewModel(
             ?: Session(seed = random.nextLong()),
     )
 
-    private val problemFlow: Flow<ProblemInfo?> = problemRepository.getProblem(problemNumber).map { it?.asExternalModel() }
+    private val problemFlow: Flow<Problem?> = problemRepository.getProblem(problemNumber)
 
     /** The blocks are shuffled with the seed from the session, so they keep their order after a restore. */
     private val puzzleFlow: Flow<Puzzle?> = problemFlow.map { problem ->

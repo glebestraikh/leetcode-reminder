@@ -35,9 +35,9 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.glebestraikh.leetcodereminder.R
 import com.glebestraikh.leetcodereminder.domain.testing.PreviewProblemTopics
-import com.glebestraikh.leetcodereminder.model.ProblemInfo
-import com.glebestraikh.leetcodereminder.model.ProblemToProgressInfo
+import com.glebestraikh.leetcodereminder.model.Problem
 import com.glebestraikh.leetcodereminder.model.ProblemTopic
+import com.glebestraikh.leetcodereminder.model.ProblemWithProgress
 import com.glebestraikh.leetcodereminder.ui.shared.AppTopAppBar
 import com.glebestraikh.leetcodereminder.ui.shared.DifficultyLabel
 import com.glebestraikh.leetcodereminder.ui.shared.Loading
@@ -46,7 +46,7 @@ import com.glebestraikh.leetcodereminder.ui.theme.LeetCodeReminderTheme
 
 @Composable
 fun MainScreen(
-    navigateToProblemDetails: (ProblemInfo) -> Unit,
+    navigateToProblemDetails: (Problem) -> Unit,
     viewModel: HomeViewModel = viewModel(),
 ) {
     val homeScreenUiState by viewModel.state.collectAsStateWithLifecycle()
@@ -90,7 +90,7 @@ fun HomeScreenErrorPreview() {
 @Composable
 private fun HomeScreen(
     uiState: HomeScreenUiState,
-    navigateToProblemDetails: (ProblemInfo) -> Unit,
+    navigateToProblemDetails: (Problem) -> Unit,
     modifier: Modifier = Modifier,
 ) {
     // The open tab is pure UI state, so it lives here. rememberSaveable keeps it after a rotation,
@@ -167,7 +167,7 @@ private fun TopicTabs(
  */
 @Composable
 private fun ProblemListItem(
-    item: ProblemToProgressInfo,
+    item: ProblemWithProgress,
     onClick: () -> Unit,
 ) {
     val problem = item.problem

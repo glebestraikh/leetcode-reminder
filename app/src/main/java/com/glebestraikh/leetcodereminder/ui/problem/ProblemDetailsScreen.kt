@@ -39,7 +39,6 @@ import com.glebestraikh.leetcodereminder.model.Hint
 import com.glebestraikh.leetcodereminder.model.HintType
 import com.glebestraikh.leetcodereminder.model.PuzzleBlock
 import com.glebestraikh.leetcodereminder.model.Rating
-import com.glebestraikh.leetcodereminder.model.leetCodeUrl
 import com.glebestraikh.leetcodereminder.ui.shared.AppTopAppBar
 import com.glebestraikh.leetcodereminder.ui.shared.CodeText
 import com.glebestraikh.leetcodereminder.ui.shared.DifficultyLabel

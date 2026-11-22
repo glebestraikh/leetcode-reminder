@@ -16,7 +16,10 @@ data class Problem(
     val spaceComplexity: String,
     val idea: String,
     val solution: String,
-)
+) {
+    val leetCodeUrl: String
+        get() = "https://leetcode.com/problems/$slug/"
+}
 
 enum class Difficulty {
     EASY,
