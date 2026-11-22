@@ -1,4 +1,4 @@
-package com.glebestraikh.leetcodereminder.domain.testing
+package com.glebestraikh.leetcodereminder.ui.preview
 
 import com.glebestraikh.leetcodereminder.model.Difficulty
 import com.glebestraikh.leetcodereminder.model.Problem

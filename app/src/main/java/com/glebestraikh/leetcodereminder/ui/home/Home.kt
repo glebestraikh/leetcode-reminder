@@ -34,10 +34,10 @@ import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.glebestraikh.leetcodereminder.R
-import com.glebestraikh.leetcodereminder.domain.testing.PreviewProblemTopics
 import com.glebestraikh.leetcodereminder.model.Problem
 import com.glebestraikh.leetcodereminder.model.ProblemTopic
 import com.glebestraikh.leetcodereminder.model.ProblemWithProgress
+import com.glebestraikh.leetcodereminder.ui.preview.PreviewProblemTopics
 import com.glebestraikh.leetcodereminder.ui.shared.AppTopAppBar
 import com.glebestraikh.leetcodereminder.ui.shared.DifficultyLabel
 import com.glebestraikh.leetcodereminder.ui.shared.Loading

@@ -33,12 +33,12 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.glebestraikh.leetcodereminder.R
 import com.glebestraikh.leetcodereminder.domain.SolutionSplitter
 import com.glebestraikh.leetcodereminder.domain.hints
-import com.glebestraikh.leetcodereminder.domain.testing.PreviewProblems
-import com.glebestraikh.leetcodereminder.domain.testing.PreviewProgress
 import com.glebestraikh.leetcodereminder.model.Hint
 import com.glebestraikh.leetcodereminder.model.HintType
 import com.glebestraikh.leetcodereminder.model.PuzzleBlock
 import com.glebestraikh.leetcodereminder.model.Rating
+import com.glebestraikh.leetcodereminder.ui.preview.PreviewProblems
+import com.glebestraikh.leetcodereminder.ui.preview.PreviewProgress
 import com.glebestraikh.leetcodereminder.ui.shared.AppTopAppBar
 import com.glebestraikh.leetcodereminder.ui.shared.CodeText
 import com.glebestraikh.leetcodereminder.ui.shared.DifficultyLabel
