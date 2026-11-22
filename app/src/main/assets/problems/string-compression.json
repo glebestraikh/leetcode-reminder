@@ -1,0 +1,12 @@
+{
+  "number": 443,
+  "title": "String Compression",
+  "difficulty": "MEDIUM",
+  "topic": "Two Pointers",
+  "pattern": "Two Pointers",
+  "timeComplexity": "O(n)",
+  "spaceComplexity": "O(1)",
+  "description": "Given an array of characters chars, compress it in place: replace every group of equal consecutive characters with the character itself and, if the group is longer than one, its length as digits. Return the new length of the array.\n\nExample 1:\nInput: chars = [\"a\",\"a\",\"b\",\"b\",\"c\",\"c\",\"c\"]\nOutput: 6, chars = [\"a\",\"2\",\"b\",\"2\",\"c\",\"3\"]\n\nExample 2:\nInput: chars = [\"a\"]\nOutput: 1, chars = [\"a\"]\n\nExample 3:\nInput: chars = [\"a\",\"b\",\"b\",\"b\",\"b\",\"b\",\"b\",\"b\",\"b\",\"b\",\"b\",\"b\",\"b\"]\nOutput: 4, chars = [\"a\",\"b\",\"1\",\"2\"]\n\nConstraints:\n- 1 ≤ len(chars) ≤ 2000\n- chars[i] is an English letter, a digit or a symbol",
+  "idea": "Two pointers: read scans the groups, write writes the result into the same array. For each group compute its length count, write the character and, if count > 1, the digits of the number. Writing never overtakes reading, so unread data is never overwritten.",
+  "solution": "func compress(chars []byte) int {\n\twrite := 0\n\tread := 0\n\tfor read < len(chars) {\n\t\tch := chars[read]\n\t\tstart := read\n\t\tfor read < len(chars) && chars[read] == ch {\n\t\t\tread++\n\t\t}\n\t\tcount := read - start\n\t\tchars[write] = ch\n\t\twrite++\n\t\tif count > 1 {\n\t\t\tfor _, digit := range []byte(strconv.Itoa(count)) {\n\t\t\t\tchars[write] = digit\n\t\t\t\twrite++\n\t\t\t}\n\t\t}\n\t}\n\treturn write\n}"
+}

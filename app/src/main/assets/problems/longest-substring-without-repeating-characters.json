@@ -1,0 +1,12 @@
+{
+  "number": 3,
+  "title": "Longest Substring Without Repeating Characters",
+  "difficulty": "MEDIUM",
+  "topic": "Sliding Window",
+  "pattern": "Sliding Window",
+  "timeComplexity": "O(n)",
+  "spaceComplexity": "O(m), m is the number of distinct characters",
+  "description": "Given a string s, find the length of the longest substring in which all characters are distinct.\n\nExample 1:\nInput: s = \"abcabcbb\"\nOutput: 3\nExplanation: The substring is \"abc\"\n\nExample 2:\nInput: s = \"bbbbb\"\nOutput: 1\nExplanation: The substring is \"b\"\n\nExample 3:\nInput: s = \"pwwkew\"\nOutput: 3\nExplanation: The substring is \"wke\". \"pwke\" does not count: it is a subsequence, not a substring\n\nConstraints:\n- 0 ≤ len(s) ≤ 5 · 10^4\n- s consists of English letters, digits, symbols and spaces",
+  "idea": "A sliding window [l, r] plus a set of the characters inside it. Move r forward; while s[r] is already in the window, remove s[l] and move l. After that the window has no repeats, so update the maximum r − l + 1.",
+  "solution": "func lengthOfLongestSubstring(s string) int {\n\tcharSet := make(map[byte]bool)\n\tl, res := 0, 0\n\tfor r := 0; r < len(s); r++ {\n\t\tfor charSet[s[r]] {\n\t\t\tdelete(charSet, s[l])\n\t\t\tl++\n\t\t}\n\t\tcharSet[s[r]] = true\n\t\tif r - l + 1 > res {\n\t\t\tres = r - l + 1\n\t\t}\n\t}\n\treturn res\n}"
+}

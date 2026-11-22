@@ -1,0 +1,12 @@
+{
+  "number": 380,
+  "title": "Insert Delete GetRandom O(1)",
+  "difficulty": "MEDIUM",
+  "topic": "Design",
+  "pattern": "Design",
+  "timeComplexity": "O(1) per operation",
+  "spaceComplexity": "O(n)",
+  "description": "Implement RandomizedSet. Insert(val) adds the element if it is missing and returns true, otherwise false. Remove(val) deletes the element if it is present and returns true, otherwise false. GetRandom() returns a random element, each with equal probability. Every operation must run in O(1) on average.\n\nExample 1:\nInput: Insert(1), Remove(2), Insert(2), GetRandom(), Remove(1), Insert(2), GetRandom()\nOutput: true, false, true, 1 or 2, true, false, 2\n\nConstraints:\n- -2^31 ≤ val ≤ 2^31 - 1\n- At most 2 · 10^5 calls\n- The set has at least one element when GetRandom is called",
+  "idea": "Store the elements in a slice so GetRandom just picks a random index. A map from value to its index in the slice gives O(1) checks and lookups. To delete in O(1), move the last element into the removed one's place, update its index in the map and cut the tail of the slice.",
+  "solution": "type RandomizedSet struct {\n\tnums    []int\n\tnumsMap map[int]int\n}\nfunc Constructor() RandomizedSet {\n\treturn RandomizedSet{\n\t\tnums:    []int{},\n\t\tnumsMap: map[int]int{},\n\t}\n}\nfunc (rs *RandomizedSet) Insert(val int) bool {\n\tif _, exists := rs.numsMap[val]; exists {\n\t\treturn false\n\t}\n\trs.nums = append(rs.nums, val)\n\trs.numsMap[val] = len(rs.nums)-1\n\treturn true\n}\nfunc (rs *RandomizedSet) Remove(val int) bool {\n\tif _, ok := rs.numsMap[val]; !ok {\n\t\treturn false\n\t}\n\tidx := rs.numsMap[val]\n\tlast := rs.nums[len(rs.nums)-1]\n\trs.numsMap[last] = idx\n\trs.nums[idx] = last\n\trs.nums = rs.nums[:len(rs.nums)-1]\n\tdelete(rs.numsMap, val)\n\treturn true\n}\nfunc (rs *RandomizedSet) GetRandom() int {\n\treturn rs.nums[rand.Intn(len(rs.nums))]\n}"
+}

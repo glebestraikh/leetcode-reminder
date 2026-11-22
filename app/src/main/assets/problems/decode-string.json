@@ -1,0 +1,12 @@
+{
+  "number": 394,
+  "title": "Decode String",
+  "difficulty": "MEDIUM",
+  "topic": "Stack & Queue",
+  "pattern": "Stack",
+  "timeComplexity": "O(n + N^2)",
+  "spaceComplexity": "O(n + N), n is the input length, N is the output length",
+  "description": "Given an encoded string, decode it. The encoding rule is k[encoded]: the string encoded is repeated exactly k times. Encodings can be nested. Return the decoded string.\n\nExample 1:\nInput: s = \"3[a]2[bc]\"\nOutput: \"aaabcbc\"\n\nExample 2:\nInput: s = \"3[a2[c]]\"\nOutput: \"accaccacc\"\n\nExample 3:\nInput: s = \"2[abc]3[cd]ef\"\nOutput: \"abcabccdcdcdef\"\n\nConstraints:\n- 1 ≤ len(s) ≤ 30\n- s consists of lowercase English letters, digits and brackets []\n- 1 ≤ k ≤ 300\n- The input is always valid",
+  "idea": "Push characters onto a stack until ']' appears. Then pop the substring up to '[', pop the '[' itself and the digits before it — that is k. Repeat the substring k times and push the result back: this way nested brackets are expanded too. At the end, join the stack into a string.",
+  "solution": "func decodeString(s string) string {\n\tstack := []string{}\n\tfor _, v := range s {\n\t\tif v != ']' {\n\t\t\tstack = append(stack, string(v))\n\t\t} else {\n\t\t\tsubstr := \"\"\n\t\t\tfor stack[len(stack)-1] != \"[\" {\n\t\t\t\tsubstr = stack[len(stack)-1] + substr\n\t\t\t\tstack = stack[:len(stack)-1]\n\t\t\t}\n\t\t\tstack = stack[:len(stack)-1]\n\t\t\tk := \"\"\n\t\t\tfor len(stack) > 0 && stack[len(stack)-1][0] >= '0' && stack[len(stack)-1][0] <= '9' {\n\t\t\t\tk = stack[len(stack)-1] + k\n\t\t\t\tstack = stack[:len(stack)-1]\n\t\t\t}\n\t\t\tcount, _ := strconv.Atoi(k)\n\t\t\trepeated := strings.Repeat(substr, count)\n\t\t\tstack = append(stack, repeated)\n\t\t}\n\t}\n\treturn strings.Join(stack, \"\")\n}"
+}

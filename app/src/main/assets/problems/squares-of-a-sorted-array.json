@@ -1,0 +1,12 @@
+{
+  "number": 977,
+  "title": "Squares of a Sorted Array",
+  "difficulty": "EASY",
+  "topic": "Two Pointers",
+  "pattern": "Two Pointers",
+  "timeComplexity": "O(n)",
+  "spaceComplexity": "O(1) excluding the answer",
+  "description": "Given an array nums sorted in non-decreasing order, return an array of the squares of its elements, also sorted in non-decreasing order.\n\nExample 1:\nInput: nums = [-4,-1,0,3,10]\nOutput: [0,1,9,16,100]\n\nExample 2:\nInput: nums = [-7,-3,2,3,11]\nOutput: [4,9,9,49,121]\n\nConstraints:\n- 1 ≤ len(nums) ≤ 10^4\n- -10^4 ≤ nums[i] ≤ 10^4\n- nums is sorted in non-decreasing order",
+  "idea": "The largest square is always at one of the ends of the array. Two pointers from both ends: compare the squares, write the larger one to the end of the result and move that pointer. The answer is filled from right to left.",
+  "solution": "func sortedSquares(nums []int) []int {\n\tl := 0\n\tr := len(nums)-1\n\tout := make([]int, len(nums))\n\tfor i := len(nums)-1; i >= 0; i-- {\n\t\tleftSq := nums[l] * nums[l]\n\t\trightSq := nums[r] * nums[r]\n\t\tif leftSq >= rightSq {\n\t\t\tout[i] = leftSq\n\t\t\tl++\n\t\t} else {\n\t\t\tout[i] = rightSq\n\t\t\tr--\n\t\t}\n\t}\n\treturn out\n}"
+}

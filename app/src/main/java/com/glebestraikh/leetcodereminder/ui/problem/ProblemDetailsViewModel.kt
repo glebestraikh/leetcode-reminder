@@ -5,9 +5,8 @@ import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.glebestraikh.leetcodereminder.Graph
-import com.glebestraikh.leetcodereminder.data.database.model.Rating
-import com.glebestraikh.leetcodereminder.data.repository.ProblemStore
-import com.glebestraikh.leetcodereminder.data.repository.ProgressStore
+import com.glebestraikh.leetcodereminder.data.problems.ProblemRepository
+import com.glebestraikh.leetcodereminder.data.progress.ProgressRepository
 import com.glebestraikh.leetcodereminder.domain.PuzzleChecker
 import com.glebestraikh.leetcodereminder.domain.SaveRatingUseCase
 import com.glebestraikh.leetcodereminder.domain.SolutionSplitter
@@ -18,6 +17,7 @@ import com.glebestraikh.leetcodereminder.model.ProblemInfo
 import com.glebestraikh.leetcodereminder.model.ProgressInfo
 import com.glebestraikh.leetcodereminder.model.Puzzle
 import com.glebestraikh.leetcodereminder.model.PuzzleBlock
+import com.glebestraikh.leetcodereminder.model.Rating
 import com.glebestraikh.leetcodereminder.model.asExternalModel
 import kotlin.random.Random
 import kotlinx.coroutines.CancellationException
@@ -87,8 +87,8 @@ sealed interface ProblemUiState {
 class ProblemDetailsViewModel(
     private val savedStateHandle: SavedStateHandle,
     private val problemNumber: Int,
-    problemStore: ProblemStore = Graph.problemStore,
-    progressStore: ProgressStore = Graph.progressStore,
+    problemRepository: ProblemRepository = Graph.problemRepository,
+    progressRepository: ProgressRepository = Graph.progressRepository,
     private val saveRatingUseCase: SaveRatingUseCase = Graph.saveRatingUseCase,
     random: Random = Random.Default,
 ) : ViewModel() {
@@ -98,7 +98,7 @@ class ProblemDetailsViewModel(
             ?: Session(seed = random.nextLong()),
     )
 
-    private val problemFlow: Flow<ProblemInfo?> = problemStore.getProblem(problemNumber).map { it?.asExternalModel() }
+    private val problemFlow: Flow<ProblemInfo?> = problemRepository.getProblem(problemNumber).map { it?.asExternalModel() }
 
     /** The blocks are shuffled with the seed from the session, so they keep their order after a restore. */
     private val puzzleFlow: Flow<Puzzle?> = problemFlow.map { problem ->
@@ -111,7 +111,7 @@ class ProblemDetailsViewModel(
     val state: StateFlow<ProblemUiState> = combine(
         problemFlow,
         puzzleFlow,
-        progressStore.getProgress(problemNumber),
+        progressRepository.getProgress(problemNumber),
         session,
     ) { problem, puzzle, progress, session ->
         when {
@@ -122,7 +122,7 @@ class ProblemDetailsViewModel(
                 val hints = problem.hints()
                 ProblemUiState.Ready(
                     problem = problem,
-                    progress = progress?.asExternalModel() ?: ProgressInfo(problemNumber = problemNumber),
+                    progress = progress ?: ProgressInfo(problemNumber = problemNumber),
                     hints = hints,
                     revealedHints = if (session.isSolved) hints.map { it.type }.toSet() else session.revealedHints,
                     puzzle = puzzle,

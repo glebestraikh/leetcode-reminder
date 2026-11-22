@@ -1,0 +1,12 @@
+{
+  "number": 23,
+  "title": "Merge k Sorted Lists",
+  "difficulty": "HARD",
+  "topic": "Linked List",
+  "pattern": "Linked List",
+  "timeComplexity": "O(n log k)",
+  "spaceComplexity": "O(k)",
+  "description": "Given an array of k linked lists, each sorted in ascending order, merge them into one sorted list and return its head.\n\nExample 1:\nInput: lists = [[1,4,5],[1,3,4],[2,6]]\nOutput: [1,1,2,3,4,4,5,6]\n\nExample 2:\nInput: lists = []\nOutput: []\n\nExample 3:\nInput: lists = [[]]\nOutput: []\n\nConstraints:\n- 0 ≤ k ≤ 10^4\n- 0 ≤ length of each list ≤ 500\n- -10^4 ≤ node values ≤ 10^4\n- At most 10^4 nodes in total",
+  "idea": "Merge the lists in pairs, like in merge sort: each round turns k lists into k/2. There are log k rounds, and each round touches all n nodes. Two lists are merged using a dummy head.",
+  "solution": "func mergeKLists(lists []*ListNode) *ListNode {\n\tif len(lists) == 0 {\n\t\treturn nil\n\t}\n\tfor len(lists) > 1 {\n\t\tvar mergedLists []*ListNode\n\t\tfor i := 0; i < len(lists); i += 2 {\n\t\t\tl1 := lists[i]\n\t\t\tvar l2 *ListNode\n\t\t\tif i + 1 < len(lists) {\n\t\t\t\tl2 = lists[i+1]\n\t\t\t}\n\t\t\tmergedLists = append(mergedLists, mergeLists(l1, l2))\n\t\t}\n\t\tlists = mergedLists\n\t}\n\treturn lists[0]\n}\nfunc mergeLists(l1, l2 *ListNode) *ListNode {\n\tdummy := &ListNode{}\n\ttail := dummy\n\tfor l1 != nil && l2 != nil {\n\t\tif l1.Val < l2.Val {\n\t\t\ttail.Next = l1\n\t\t\tl1 = l1.Next\n\t\t} else {\n\t\t\ttail.Next = l2\n\t\t\tl2 = l2.Next\n\t\t}\n\t\ttail = tail.Next\n\t}\n\tif l1 != nil {\n\t\ttail.Next = l1\n\t} else {\n\t\ttail.Next = l2\n\t}\n\treturn dummy.Next\n}"
+}

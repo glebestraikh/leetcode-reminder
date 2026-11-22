@@ -30,10 +30,10 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.glebestraikh.leetcodereminder.R
-import com.glebestraikh.leetcodereminder.data.database.model.Rating
 import com.glebestraikh.leetcodereminder.model.PuzzleBlock
 import com.glebestraikh.leetcodereminder.model.PuzzleLine
 import com.glebestraikh.leetcodereminder.model.PuzzlePart
+import com.glebestraikh.leetcodereminder.model.Rating
 import com.glebestraikh.leetcodereminder.ui.shared.CodeText
 import com.glebestraikh.leetcodereminder.ui.shared.labelRes
 

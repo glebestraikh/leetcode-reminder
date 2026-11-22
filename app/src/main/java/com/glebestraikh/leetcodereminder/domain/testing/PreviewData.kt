@@ -1,11 +1,11 @@
 package com.glebestraikh.leetcodereminder.domain.testing
 
 import com.glebestraikh.leetcodereminder.model.Difficulty
-import com.glebestraikh.leetcodereminder.data.database.model.Rating
 import com.glebestraikh.leetcodereminder.model.ProblemInfo
 import com.glebestraikh.leetcodereminder.model.ProblemToProgressInfo
 import com.glebestraikh.leetcodereminder.model.ProblemTopic
 import com.glebestraikh.leetcodereminder.model.ProgressInfo
+import com.glebestraikh.leetcodereminder.model.Rating
 
 val PreviewProblems = listOf(
     ProblemInfo(

@@ -1,0 +1,12 @@
+{
+  "number": 56,
+  "title": "Merge Intervals",
+  "difficulty": "MEDIUM",
+  "topic": "Arrays & Hashing",
+  "pattern": "Intervals",
+  "timeComplexity": "O(n log n)",
+  "spaceComplexity": "O(n)",
+  "description": "Given an array of intervals where intervals[i] = [start, end], merge all overlapping intervals and return an array of non-overlapping intervals that cover all the input ones.\n\nExample 1:\nInput: intervals = [[1,3],[2,6],[8,10],[15,18]]\nOutput: [[1,6],[8,10],[15,18]]\nExplanation: [1,3] and [2,6] overlap, so they merge into [1,6]\n\nExample 2:\nInput: intervals = [[1,4],[4,5]]\nOutput: [[1,5]]\nExplanation: Intervals that touch at a point are merged too\n\nConstraints:\n- 1 ≤ len(intervals) ≤ 10^4\n- 0 ≤ start ≤ end ≤ 10^4",
+  "idea": "Sort the intervals by start. Then an interval can only overlap the last one in the result: if its start is not greater than the last end, extend that end to the maximum, otherwise append a new interval.",
+  "solution": "func merge(intervals [][]int) [][]int {\n\tsort.Slice(intervals, func(i, j int) bool {\n\t\treturn intervals[i][0] < intervals[j][0]\n\t})\n\tout := [][]int{intervals[0]}\n\tfor _, interval := range intervals {\n\t\tstart, end := interval[0], interval[1]\n\t\tprevEnd := out[len(out)-1][1]\n\t\tif start <= prevEnd {\n\t\t\tout[len(out)-1][1] = max(prevEnd, end)\n\t\t} else {\n\t\t\tout = append(out, []int{start, end})\n\t\t}\n\t}\n\treturn out\n}"
+}

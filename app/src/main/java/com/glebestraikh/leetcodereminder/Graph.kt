@@ -3,10 +3,10 @@ package com.glebestraikh.leetcodereminder
 import android.content.Context
 import androidx.room.Room
 import com.glebestraikh.leetcodereminder.data.database.LeetCodeReminderDatabase
-import com.glebestraikh.leetcodereminder.data.repository.LocalProgressStore
-import com.glebestraikh.leetcodereminder.data.repository.ProblemStore
-import com.glebestraikh.leetcodereminder.data.repository.ProgressStore
-import com.glebestraikh.leetcodereminder.data.sync.AssetProblemStore
+import com.glebestraikh.leetcodereminder.data.problems.AssetProblemRepository
+import com.glebestraikh.leetcodereminder.data.problems.ProblemRepository
+import com.glebestraikh.leetcodereminder.data.progress.ProgressRepository
+import com.glebestraikh.leetcodereminder.data.progress.RoomProgressRepository
 import com.glebestraikh.leetcodereminder.domain.ProblemTopicsUseCase
 import com.glebestraikh.leetcodereminder.domain.SaveRatingUseCase
 import kotlinx.coroutines.CoroutineScope
@@ -21,24 +21,30 @@ object Graph {
     lateinit var database: LeetCodeReminderDatabase
         private set
 
-    lateinit var problemStore: ProblemStore
+    lateinit var problemRepository: ProblemRepository
         private set
 
-    val progressStore: ProgressStore by lazy {
-        LocalProgressStore(progressDao = database.progressDao())
+    val progressRepository: ProgressRepository by lazy {
+        RoomProgressRepository(progressDao = database.progressDao())
     }
 
     val problemTopicsUseCase by lazy {
-        ProblemTopicsUseCase(problemStore = problemStore, progressStore = progressStore)
+        ProblemTopicsUseCase(problemRepository = problemRepository, progressRepository = progressRepository)
     }
 
     val saveRatingUseCase by lazy {
-        SaveRatingUseCase(progressStore = progressStore)
+        SaveRatingUseCase(progressRepository = progressRepository)
     }
 
     fun provide(context: Context, applicationScope: CoroutineScope) {
         database = Room.databaseBuilder(context, LeetCodeReminderDatabase::class.java, "leetcode_reminder.db")
             .build()
-        problemStore = AssetProblemStore(context.assets, applicationScope, Dispatchers.IO)
+        val assets = context.assets
+        problemRepository = AssetProblemRepository(
+            listAssets = assets::list,
+            readAsset = { path -> assets.open(path).bufferedReader().use { it.readText() } },
+            applicationScope = applicationScope,
+            ioDispatcher = Dispatchers.IO,
+        )
     }
 }

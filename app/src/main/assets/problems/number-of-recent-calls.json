@@ -1,0 +1,12 @@
+{
+  "number": 933,
+  "title": "Number of Recent Calls",
+  "difficulty": "EASY",
+  "topic": "Stack & Queue",
+  "pattern": "Queue",
+  "timeComplexity": "O(1) amortized per Ping",
+  "spaceComplexity": "O(W), W is the number of requests in the window",
+  "description": "Implement RecentCounter. Ping(t) records a request at time t (in milliseconds) and returns the number of requests in the last 3000 ms, that is in the range [t − 3000, t]. Every t is strictly larger than the previous one.\n\nExample 1:\nInput: Ping(1), Ping(100), Ping(3001), Ping(3002)\nOutput: 1, 2, 3, 3\nExplanation: At t = 3002 the request at 1 is already outside the window [2, 3002]\n\nConstraints:\n- 1 ≤ t ≤ 10^9\n- t strictly increases between calls\n- At most 10^4 calls to Ping",
+  "idea": "A queue of the requests in the window: append the new t to the back and drop from the front everything older than t − 3000. Each request is added and removed once, so Ping is O(1) on average. The alternative keeps the whole history and binary-searches the first time ≥ t − 3000: O(log n) per call but O(n) memory.",
+  "solution": "type RecentCounter struct {\n\tq []int\n}\nfunc Constructor() RecentCounter {\n\treturn RecentCounter{\n\t\tq: []int{},\n\t}\n}\nfunc (this *RecentCounter) Ping(t int) int {\n\tthis.q = append(this.q, t)\n\tfor this.q[0] < t - 3000 {\n\t\tthis.q = this.q[1:]\n\t}\n\treturn len(this.q)\n}"
+}

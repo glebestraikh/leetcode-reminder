@@ -1,0 +1,12 @@
+{
+  "number": 125,
+  "title": "Valid Palindrome",
+  "difficulty": "EASY",
+  "topic": "Two Pointers",
+  "pattern": "Two Pointers",
+  "timeComplexity": "O(n)",
+  "spaceComplexity": "O(n), the string is copied into []rune",
+  "description": "A string is a palindrome if, after converting letters to lowercase and removing everything except letters and digits, it reads the same forwards and backwards. Given a string s, return true if it is a palindrome.\n\nExample 1:\nInput: s = \"A man, a plan, a canal: Panama\"\nOutput: true\nExplanation: \"amanaplanacanalpanama\" is a palindrome\n\nExample 2:\nInput: s = \"race a car\"\nOutput: false\n\nExample 3:\nInput: s = \" \"\nOutput: true\nExplanation: After removing non-alphanumeric characters the string is empty, and an empty string is a palindrome\n\nConstraints:\n- 1 ≤ len(s) ≤ 2 · 10^5\n- s consists of printable ASCII characters",
+  "idea": "Two pointers from both ends. Skip anything that is not a letter or a digit, compare the characters ignoring case and move the pointers towards each other. The first mismatch means it is not a palindrome.",
+  "solution": "func isPalindrome(s string) bool {\n\trunes := []rune(s)\n\tl, r := 0, len(runes)-1\n\tfor l < r {\n\t\tfor l < r && !isAlphaNum(runes[l]) {\n\t\t\tl++\n\t\t}\n\t\tfor l < r && !isAlphaNum(runes[r]) {\n\t\t\tr--\n\t\t}\n\t\tif unicode.ToLower(runes[l]) != unicode.ToLower(runes[r]) {\n\t\t\treturn false\n\t\t}\n\t\tl++\n\t\tr--\n\t}\n\treturn true\n}\nfunc isAlphaNum(r rune) bool {\n\tif unicode.IsDigit(r) || unicode.IsLetter(r) {\n\t\treturn true\n\t}\n\treturn false\n}"
+}

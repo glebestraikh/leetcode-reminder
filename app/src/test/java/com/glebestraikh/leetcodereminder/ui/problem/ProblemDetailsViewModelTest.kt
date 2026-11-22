@@ -1,13 +1,14 @@
 package com.glebestraikh.leetcodereminder.ui.problem
 
 import androidx.lifecycle.SavedStateHandle
-import com.glebestraikh.leetcodereminder.data.database.model.Rating
-import com.glebestraikh.leetcodereminder.data.testing.repository.TestProblemStore
-import com.glebestraikh.leetcodereminder.data.testing.repository.TestProgressStore
+import com.glebestraikh.leetcodereminder.data.testing.repository.TestProblemRepository
+import com.glebestraikh.leetcodereminder.data.testing.repository.TestProgressRepository
 import com.glebestraikh.leetcodereminder.domain.SaveRatingUseCase
 import com.glebestraikh.leetcodereminder.domain.testProblem
 import com.glebestraikh.leetcodereminder.model.HintType
+import com.glebestraikh.leetcodereminder.model.Rating
 import com.glebestraikh.leetcodereminder.testing.MainDispatcherRule
+import kotlin.random.Random
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
@@ -20,7 +21,6 @@ import org.junit.Assert.assertNull
 import org.junit.Assert.assertTrue
 import org.junit.Rule
 import org.junit.Test
-import kotlin.random.Random
 
 class ProblemDetailsViewModelTest {
 
@@ -28,15 +28,15 @@ class ProblemDetailsViewModelTest {
     val mainDispatcherRule = MainDispatcherRule()
 
     private val problem = testProblem(number = 1, solution = "func f() int {\n\ta := 1\n\tb := 2\n\treturn a + b\n}")
-    private val problemStore = TestProblemStore().apply { setProblems(listOf(problem)) }
-    private val progressStore = TestProgressStore()
+    private val problemRepository = TestProblemRepository().apply { setProblems(listOf(problem)) }
+    private val progressRepository = TestProgressRepository()
 
     private fun createViewModel(savedStateHandle: SavedStateHandle = SavedStateHandle()) = ProblemDetailsViewModel(
         savedStateHandle = savedStateHandle,
         problemNumber = problem.number,
-        problemStore = problemStore,
-        progressStore = progressStore,
-        saveRatingUseCase = SaveRatingUseCase(progressStore = progressStore),
+        problemRepository = problemRepository,
+        progressRepository = progressRepository,
+        saveRatingUseCase = SaveRatingUseCase(progressRepository = progressRepository),
         random = Random(seed = 42),
     )
 
@@ -123,7 +123,7 @@ class ProblemDetailsViewModelTest {
 
         assertTrue(viewModel.readyState.isSolved)
         assertEquals(HintType.entries.toSet(), viewModel.readyState.revealedHints)
-        assertNull(progressStore.getProgress(1).first())
+        assertNull(progressRepository.getProgress(1).first())
     }
 
     @Test
@@ -136,7 +136,7 @@ class ProblemDetailsViewModelTest {
         viewModel.onRatingSelected(Rating.REMEMBER_WELL)
 
         assertEquals(Rating.NEED_TO_REPEAT, viewModel.readyState.savedRating)
-        assertEquals(1, progressStore.getProgress(1).first()?.solvedCount)
+        assertEquals(1, progressRepository.getProgress(1).first()?.solvedCount)
     }
 
     @Test
@@ -144,21 +144,21 @@ class ProblemDetailsViewModelTest {
         val viewModel = createViewModel()
         subscribe(viewModel)
         viewModel.solve()
-        progressStore.saveFailure = IllegalStateException("Write failed")
+        progressRepository.saveFailure = IllegalStateException("Write failed")
 
         viewModel.onRatingSelected(Rating.NEED_TO_REPEAT)
 
         assertNull(viewModel.readyState.savedRating)
         assertTrue(viewModel.readyState.ratingSaveFailed)
         assertFalse(viewModel.readyState.isSavingRating)
-        assertNull(progressStore.getProgress(1).first())
+        assertNull(progressRepository.getProgress(1).first())
 
-        progressStore.saveFailure = null
+        progressRepository.saveFailure = null
         viewModel.onRatingSelected(Rating.NEED_TO_REPEAT)
 
         assertEquals(Rating.NEED_TO_REPEAT, viewModel.readyState.savedRating)
         assertFalse(viewModel.readyState.ratingSaveFailed)
-        assertEquals(1, progressStore.getProgress(1).first()?.solvedCount)
+        assertEquals(1, progressRepository.getProgress(1).first()?.solvedCount)
     }
 
     @Test
@@ -168,7 +168,7 @@ class ProblemDetailsViewModelTest {
 
         viewModel.onRatingSelected(Rating.REMEMBER_WELL)
 
-        assertNull(progressStore.getProgress(1).first())
+        assertNull(progressRepository.getProgress(1).first())
     }
 
     @Test

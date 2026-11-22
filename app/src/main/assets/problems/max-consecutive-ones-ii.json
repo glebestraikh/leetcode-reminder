@@ -1,0 +1,12 @@
+{
+  "number": 487,
+  "title": "Max Consecutive Ones II",
+  "difficulty": "MEDIUM",
+  "topic": "Sliding Window",
+  "pattern": "Sliding Window",
+  "timeComplexity": "O(n)",
+  "spaceComplexity": "O(1)",
+  "description": "Given a binary array nums, return the maximum number of consecutive ones if you can flip at most one zero into a one.\n\nExample 1:\nInput: nums = [1,0,1,1,0]\nOutput: 4\nExplanation: Flip the first zero to get [1,1,1,1,0]\n\nExample 2:\nInput: nums = [1,0,1,1,0,1]\nOutput: 4\n\nConstraints:\n- 1 ≤ len(nums) ≤ 10^5\n- nums[i] is 0 or 1",
+  "idea": "A window with at most one zero that never shrinks: when there are more than one zeros, the left edge moves one step together with the right edge. That is why the final window size len(nums) − l equals the best one found.",
+  "solution": "func findMaxConsecutiveOnes(nums []int) int {\n\tzeroCount := 0\n\tl := 0\n\tfor _, x := range nums {\n\t\tif x == 0 {\n\t\t\tzeroCount += 1\n\t\t}\n\t\tif zeroCount > 1 {\n\t\t\tif nums[l] == 0 {\n\t\t\t\tzeroCount -= 1\n\t\t\t}\n\t\t\tl++\n\t\t}\n\t}\n\treturn len(nums) - l\n}"
+}

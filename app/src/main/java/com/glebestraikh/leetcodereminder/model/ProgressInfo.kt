@@ -1,8 +1,6 @@
 package com.glebestraikh.leetcodereminder.model
 
 import androidx.compose.runtime.Immutable
-import com.glebestraikh.leetcodereminder.data.database.model.Progress
-import com.glebestraikh.leetcodereminder.data.database.model.Rating
 
 /**
  * External data layer representation of the user's progress on a problem.
@@ -17,9 +15,3 @@ data class ProgressInfo(
 ) {
     val isSolved: Boolean get() = solvedCount > 0
 }
-
-fun Progress.asExternalModel(): ProgressInfo = ProgressInfo(
-    problemNumber = problemNumber,
-    lastRating = lastRating,
-    solvedCount = solvedCount,
-)

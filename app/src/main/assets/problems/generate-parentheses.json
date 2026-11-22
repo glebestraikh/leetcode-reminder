@@ -1,0 +1,12 @@
+{
+  "number": 22,
+  "title": "Generate Parentheses",
+  "difficulty": "MEDIUM",
+  "topic": "Trees & Backtracking",
+  "pattern": "Backtracking",
+  "timeComplexity": "O(4^n / √n)",
+  "spaceComplexity": "O(n)",
+  "description": "Given n, generate all valid sequences of n pairs of round brackets.\n\nExample 1:\nInput: n = 3\nOutput: [\"((()))\",\"(()())\",\"(())()\",\"()(())\",\"()()()\"]\n\nExample 2:\nInput: n = 1\nOutput: [\"()\"]\n\nConstraints:\n- 1 ≤ n ≤ 8",
+  "idea": "Encode '(' as +1 and ')' as −1: a sequence is valid when every prefix sum is ≥ 0 and the total is 0. That gives backtracking: add an opening bracket while there are fewer than n of them, add a closing bracket only while there are fewer closing than opening ones. Once 2n characters are placed, record the answer.",
+  "solution": "func generateParenthesis(n int) []string {\n\tres := []string{}\n\tstack := []string{}\n\tvar backtracking func(openN, closeN int)\n\tbacktracking = func(openN, closeN int) {\n\t\tif len(stack) == 2*n {\n\t\t\tres = append(res, strings.Join(stack, \"\"))\n\t\t\treturn\n\t\t}\n\t\tif openN < n {\n\t\t\tstack = append(stack, \"(\")\n\t\t\tbacktracking(openN+1, closeN)\n\t\t\tstack = stack[:len(stack)-1]\n\t\t}\n\t\tif closeN < openN {\n\t\t\tstack = append(stack, \")\")\n\t\t\tbacktracking(openN, closeN+1)\n\t\t\tstack = stack[:len(stack)-1]\n\t\t}\n\t}\n\tbacktracking(0, 0)\n\treturn res\n}"
+}

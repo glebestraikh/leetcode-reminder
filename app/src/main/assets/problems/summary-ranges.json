@@ -1,0 +1,12 @@
+{
+  "number": 228,
+  "title": "Summary Ranges",
+  "difficulty": "EASY",
+  "topic": "Arrays & Hashing",
+  "pattern": "Array",
+  "timeComplexity": "O(n)",
+  "spaceComplexity": "O(1) excluding the answer",
+  "description": "Given a sorted array of unique integers nums, describe it with the shortest list of ranges: consecutive numbers a, a+1, …, b are written as \"a->b\", and a single number a as \"a\".\n\nExample 1:\nInput: nums = [0,1,2,4,5,7]\nOutput: [\"0->2\",\"4->5\",\"7\"]\n\nExample 2:\nInput: nums = [0,2,3,4,6,8,9]\nOutput: [\"0\",\"2->4\",\"6\",\"8->9\"]\n\nConstraints:\n- 0 ≤ len(nums) ≤ 20\n- -2^31 ≤ nums[i] ≤ 2^31 - 1\n- All values are unique and sorted in ascending order",
+  "idea": "Remember the start of a range and move i while the next number is exactly one more than the current one. If the range has a single number, write it, otherwise write \"start->nums[i]\". The outer loop continues from the number after the range.",
+  "solution": "func summaryRanges(nums []int) []string {\n\tans := []string{}\n\tfor i := 0; i < len(nums); i++ {\n\t\tstart := nums[i]\n\t\tfor i+1 < len(nums) && nums[i+1] == nums[i]+1 {\n\t\t\ti++\n\t\t}\n\t\tif nums[i] == start {\n\t\t\tans = append(ans, strconv.Itoa(start))\n\t\t} else {\n\t\t\tans = append(ans, fmt.Sprintf(\"%d->%d\", start, nums[i]))\n\t\t}\n\t}\n\treturn ans\n}"
+}

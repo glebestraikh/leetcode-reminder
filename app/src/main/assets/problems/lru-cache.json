@@ -1,0 +1,12 @@
+{
+  "number": 146,
+  "title": "LRU Cache",
+  "difficulty": "MEDIUM",
+  "topic": "Design",
+  "pattern": "Design",
+  "timeComplexity": "O(1) per Get and Put",
+  "spaceComplexity": "O(n)",
+  "description": "Implement an LRU cache with capacity capacity. Get(key) returns the value for the key, or -1 if the key is missing. Put(key, value) inserts or updates the value; when the cache is full, it evicts the key that was used least recently. Both operations must run in O(1) on average.\n\nExample 1:\nInput: LRUCache(2), Put(1, 1), Put(2, 2), Get(1), Put(3, 3), Get(2), Put(4, 4), Get(1), Get(3), Get(4)\nOutput: -, -, -, 1, -, -1, -, -1, 3, 4\nExplanation: Put(3, 3) evicts key 2, Put(4, 4) evicts key 1\n\nConstraints:\n- 1 ≤ capacity ≤ 3000\n- 0 ≤ key ≤ 10^4\n- 0 ≤ value ≤ 10^5\n- At most 2 · 10^5 calls to Get and Put",
+  "idea": "A map from key to node gives O(1) lookup, and a doubly linked list keeps the usage order: the oldest on the left, the newest on the right. Dummy nodes left and right remove nil checks. Get and Put move the node to the right end; on overflow, remove the node right after left.",
+  "solution": "type LRUCache struct {\n\tcap    int\n\tcaches map[int]*Node\n\tleft   *Node\n\tright  *Node\n}\ntype Node struct {\n\tkey  int\n\tval  int\n\tprev *Node\n\tnext *Node\n}\nfunc Constructor(capacity int) LRUCache {\n\tlru := LRUCache{\n\t\tcap:    capacity,\n\t\tcaches: map[int]*Node{},\n\t\tleft:   &Node{},\n\t\tright:  &Node{},\n\t}\n\tlru.left.next = lru.right\n\tlru.right.prev = lru.left\n\treturn lru\n}\nfunc (lru *LRUCache) remove(node *Node) {\n\tprev, next := node.prev, node.next\n\tprev.next = next\n\tnext.prev = prev\n}\nfunc (lru *LRUCache) insert(node *Node) {\n\tprevRight := lru.right.prev\n\tprevRight.next = node\n\tlru.right.prev = node\n\tnode.next = lru.right\n\tnode.prev = prevRight\n}\nfunc (lru *LRUCache) Get(key int) int {\n\tif node, exists := lru.caches[key]; exists {\n\t\tlru.remove(node)\n\t\tlru.insert(node)\n\t\treturn node.val\n\t}\n\treturn -1\n}\nfunc (lru *LRUCache) Put(key, val int) {\n\tif node, exists := lru.caches[key]; exists {\n\t\tlru.remove(node)\n\t\tnode.val = val\n\t\tlru.insert(node)\n\t\treturn\n\t}\n\tif len(lru.caches) == lru.cap {\n\t\tnode := lru.left.next\n\t\tlru.remove(node)\n\t\tdelete(lru.caches, node.key)\n\t}\n\tnode := &Node{\n\t\tkey: key,\n\t\tval: val,\n\t}\n\tlru.insert(node)\n\tlru.caches[key] = node\n}"
+}

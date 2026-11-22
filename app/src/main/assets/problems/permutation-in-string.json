@@ -1,0 +1,12 @@
+{
+  "number": 567,
+  "title": "Permutation in String",
+  "difficulty": "MEDIUM",
+  "topic": "Sliding Window",
+  "pattern": "Sliding Window",
+  "timeComplexity": "O(n)",
+  "spaceComplexity": "O(1)",
+  "description": "Given strings s1 and s2, return true if s2 contains a permutation of s1 — a substring with the same letters in any order.\n\nExample 1:\nInput: s1 = \"ab\", s2 = \"eidbaooo\"\nOutput: true\nExplanation: s2 contains \"ba\"\n\nExample 2:\nInput: s1 = \"ab\", s2 = \"eidboaoo\"\nOutput: false\n\nConstraints:\n- 1 ≤ len(s1), len(s2) ≤ 10^4\n- Both strings consist of lowercase English letters",
+  "idea": "A window of length len(s1) slides over s2. Keep the letter counts of s1 and of the window, plus matches — how many of the 26 letters have equal counts. Sliding the window changes only two letters, so matches is updated in O(1). matches == 26 means a permutation is found.",
+  "solution": "func checkInclusion(s1 string, s2 string) bool {\n\tif len(s1) > len(s2) {\n\t\treturn false\n\t}\n\ts1Count := [26]int{}\n\ts2Count := [26]int{}\n\tfor i := range s1 {\n\t\ts1Count[s1[i]-'a'] += 1\n\t\ts2Count[s2[i]-'a'] += 1\n\t}\n\tmatches := 0\n\tfor i := range s1Count {\n\t\tif s1Count[i] == s2Count[i] {\n\t\t\tmatches += 1\n\t\t}\n\t}\n\tl := 0\n\tfor i := len(s1); i < len(s2); i++ {\n\t\tif matches == 26 {\n\t\t\treturn true\n\t\t}\n\t\ts2Count[s2[i]-'a'] += 1\n\t\tif s2Count[s2[i]-'a'] == s1Count[s2[i]-'a'] {\n\t\t\tmatches += 1\n\t\t} else if s2Count[s2[i]-'a'] == s1Count[s2[i]-'a'] + 1 {\n\t\t\tmatches -= 1\n\t\t}\n\t\ts2Count[s2[l]-'a'] -= 1\n\t\tif s2Count[s2[l]-'a'] == s1Count[s2[l]-'a'] {\n\t\t\tmatches += 1\n\t\t} else if s2Count[s2[l]-'a'] == s1Count[s2[l]-'a'] - 1 {\n\t\t\tmatches -= 1\n\t\t}\n\t\tl++\n\t}\n\treturn matches == 26\n}"
+}

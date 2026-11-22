@@ -1,0 +1,12 @@
+{
+  "number": 1493,
+  "title": "Longest Subarray of 1's After Deleting One Element",
+  "difficulty": "MEDIUM",
+  "topic": "Sliding Window",
+  "pattern": "Sliding Window",
+  "timeComplexity": "O(n)",
+  "spaceComplexity": "O(1)",
+  "description": "Given a binary array nums, you must delete exactly one element from it. Return the length of the longest non-empty subarray of only ones you can get, or 0 if there is none.\n\nExample 1:\nInput: nums = [1,1,0,1]\nOutput: 3\nExplanation: Delete the zero to get [1,1,1]\n\nExample 2:\nInput: nums = [0,1,1,1,0,1,1,0,1]\nOutput: 5\nExplanation: Delete the zero at index 4 to get [1,1,1,1,1]\n\nExample 3:\nInput: nums = [1,1,1]\nOutput: 2\nExplanation: An element must be deleted even if it is a one\n\nConstraints:\n- 1 ≤ len(nums) ≤ 10^5\n- nums[i] is 0 or 1",
+  "idea": "A window with at most one zero that never shrinks: when there are more than one zeros, the left edge moves one step together with the right edge. nums[l] ^ 1 is 1 for a zero and 0 for a one, so the zero count drops only when a zero leaves the window. The answer is the window size minus the deleted element: len(nums) − l − 1.",
+  "solution": "func longestSubarray(nums []int) int {\n\tl := 0\n\tzeroCount := 0\n\tfor i := range nums {\n\t\tif nums[i] != 1 {\n\t\t\tzeroCount++\n\t\t}\n\t\tif zeroCount > 1 {\n\t\t\tzeroCount -= nums[l] ^ 1\n\t\t\tl++\n\t\t}\n\t}\n\treturn len(nums) - l - 1\n}"
+}

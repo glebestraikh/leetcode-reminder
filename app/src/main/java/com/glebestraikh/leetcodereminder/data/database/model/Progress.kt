@@ -4,6 +4,7 @@ import androidx.compose.runtime.Immutable
 import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
+import com.glebestraikh.leetcodereminder.model.Rating
 
 @Entity(tableName = "progress")
 @Immutable
@@ -12,9 +13,3 @@ data class Progress(
     @ColumnInfo(name = "last_rating") val lastRating: Rating,
     @ColumnInfo(name = "solved_count") val solvedCount: Int,
 )
-
-enum class Rating {
-    FORGOT,
-    NEED_TO_REPEAT,
-    REMEMBER_WELL,
-}

@@ -1,0 +1,12 @@
+{
+  "number": 392,
+  "title": "Is Subsequence",
+  "difficulty": "EASY",
+  "topic": "Two Pointers",
+  "pattern": "Two Pointers",
+  "timeComplexity": "O(n), n is the length of t",
+  "spaceComplexity": "O(1)",
+  "description": "Given strings s and t, return true if s is a subsequence of t, meaning s can be obtained from t by deleting some characters without changing the order of the rest.\n\nExample 1:\nInput: s = \"abc\", t = \"ahbgdc\"\nOutput: true\n\nExample 2:\nInput: s = \"axc\", t = \"ahbgdc\"\nOutput: false\n\nConstraints:\n- 0 ≤ len(s) ≤ 100\n- 0 ≤ len(t) ≤ 10^4\n- Both strings consist of lowercase English letters",
+  "idea": "Two pointers: i over s, j over t. Walk t; when the characters match, advance i as well. If i reaches the end of s, all its characters were found in t in order.",
+  "solution": "func isSubsequence(s string, t string) bool {\n\ti, j := 0, 0\n\tfor i < len(s) && j < len(t) {\n\t\tif s[i] == t[j] {\n\t\t\ti++\n\t\t}\n\t\tj++\n\t}\n\treturn i == len(s)\n}"
+}

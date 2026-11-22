@@ -1,0 +1,12 @@
+{
+  "number": 283,
+  "title": "Move Zeroes",
+  "difficulty": "EASY",
+  "topic": "Two Pointers",
+  "pattern": "Two Pointers",
+  "timeComplexity": "O(n)",
+  "spaceComplexity": "O(1)",
+  "description": "Given an array nums, move all zeros to the end while keeping the order of the non-zero elements. It must be done in place, without copying the array.\n\nExample 1:\nInput: nums = [0,1,0,3,12]\nOutput: [1,3,12,0,0]\n\nExample 2:\nInput: nums = [0]\nOutput: [0]\n\nConstraints:\n- 1 ≤ len(nums) ≤ 10^4\n- -2^31 ≤ nums[i] ≤ 2^31 - 1",
+  "idea": "Pointer l is the slot for the next non-zero element. Walk the array: on a non-zero number, swap it with nums[l] and move l. The zeros end up at the back by themselves.",
+  "solution": "func moveZeroes(nums []int) {\n\tl := 0\n\tfor i, v := range nums {\n\t\tif v != 0 {\n\t\t\tnums[l], nums[i] = nums[i], nums[l]\n\t\t\tl++\n\t\t}\n\t}\n}"
+}

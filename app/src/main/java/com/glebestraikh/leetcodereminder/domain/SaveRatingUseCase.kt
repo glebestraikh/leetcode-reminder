@@ -1,11 +1,11 @@
 package com.glebestraikh.leetcodereminder.domain
 
-import com.glebestraikh.leetcodereminder.data.database.model.Rating
-import com.glebestraikh.leetcodereminder.data.repository.ProgressStore
+import com.glebestraikh.leetcodereminder.data.progress.ProgressRepository
+import com.glebestraikh.leetcodereminder.model.Rating
 
 /** Saves the rating and increments the solved count. */
-class SaveRatingUseCase(private val progressStore: ProgressStore) {
+class SaveRatingUseCase(private val progressRepository: ProgressRepository) {
     suspend operator fun invoke(problemNumber: Int, rating: Rating) {
-        progressStore.saveRating(problemNumber, rating)
+        progressRepository.saveRating(problemNumber, rating)
     }
 }

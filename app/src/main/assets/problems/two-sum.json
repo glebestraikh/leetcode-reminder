@@ -1,0 +1,12 @@
+{
+  "number": 1,
+  "title": "Two Sum",
+  "difficulty": "EASY",
+  "topic": "Arrays & Hashing",
+  "pattern": "Hash Map",
+  "timeComplexity": "O(n)",
+  "spaceComplexity": "O(n)",
+  "description": "Given an array of integers nums and an integer target, return the indices of the two different elements that add up to target. There is exactly one solution. The indices can be returned in any order.\n\nExample 1:\nInput: nums = [2,7,11,15], target = 9\nOutput: [0,1]\nExplanation: nums[0] + nums[1] = 2 + 7 = 9\n\nExample 2:\nInput: nums = [3,2,4], target = 6\nOutput: [1,2]\n\nConstraints:\n- 2 ≤ len(nums) ≤ 10^4\n- -10^9 ≤ nums[i], target ≤ 10^9\n- Exactly one valid answer exists",
+  "idea": "One pass with a map from value to index. For each number v, look up its complement target − v: if it was seen before, we have the answer. Otherwise remember v and its index.",
+  "solution": "func twoSum(nums []int, target int) []int {\n\tprevMap := map[int]int{}\n\tfor i, v := range nums {\n\t\tdiff := target - v\n\t\tif idx, ok := prevMap[diff]; ok {\n\t\t\treturn []int{idx, i}\n\t\t}\n\t\tprevMap[v] = i\n\t}\n\treturn []int{}\n}"
+}

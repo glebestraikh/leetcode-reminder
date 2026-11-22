@@ -1,0 +1,12 @@
+{
+  "number": 281,
+  "title": "Zigzag Iterator",
+  "difficulty": "MEDIUM",
+  "topic": "Design",
+  "pattern": "Design",
+  "timeComplexity": "Next is O(1), HasNext is O(k)",
+  "spaceComplexity": "O(k), k is the number of lists",
+  "description": "Given several lists of numbers, implement an iterator that returns their elements in turns: the first element of the first list, the first element of the second list and so on in a circle. Exhausted lists are skipped. HasNext() reports whether elements remain, Next() returns the next one.\n\nExample 1:\nInput: v1 = [1,2], v2 = [3,4,5,6]\nOutput: [1,3,2,4,5,6]\nExplanation: Elements alternate, and after v1 ends the rest of v2 follows\n\nExample 2:\nInput: v1 = [1], v2 = []\nOutput: [1]\n\nConstraints:\n- 0 ≤ length of each list ≤ 1000\n- 1 to 2000 elements in total\n- -2^31 ≤ v[i] ≤ 2^31 - 1",
+  "idea": "Keep the index of the current list curr and, for every list, the index of its next element. Next takes the element of the current list, advances its index and moves to the next list in a circle. HasNext skips exhausted lists; if it goes full circle back to the start, no elements are left.",
+  "solution": "type ZigZagIterator struct {\n\tcurr    int\n\tslices  [][]int\n\tindexes []int\n}\nfunc (z *ZigZagIterator) HasNext() bool {\n\tif len(z.slices) == 0 {\n\t\treturn false\n\t}\n\tstart := z.curr\n\tfor z.indexes[z.curr] == len(z.slices[z.curr]) {\n\t\tz.curr = (z.curr + 1) % len(z.slices)\n\t\tif z.curr == start {\n\t\t\treturn false\n\t\t}\n\t}\n\treturn true\n}\nfunc (z *ZigZagIterator) Next() int {\n\tcurrSlice := z.slices[z.curr]\n\tcurrIndex := z.indexes[z.curr]\n\tv := currSlice[currIndex]\n\tz.indexes[z.curr]++\n\tz.curr = (z.curr + 1) % len(z.slices)\n\treturn v\n}"
+}

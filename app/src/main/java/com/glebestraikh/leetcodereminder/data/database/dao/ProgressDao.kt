@@ -5,7 +5,7 @@ import androidx.room.Query
 import androidx.room.Transaction
 import androidx.room.Upsert
 import com.glebestraikh.leetcodereminder.data.database.model.Progress
-import com.glebestraikh.leetcodereminder.data.database.model.Rating
+import com.glebestraikh.leetcodereminder.model.Rating
 import kotlinx.coroutines.flow.Flow
 
 @Dao

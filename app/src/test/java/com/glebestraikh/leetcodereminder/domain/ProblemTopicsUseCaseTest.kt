@@ -1,10 +1,10 @@
 package com.glebestraikh.leetcodereminder.domain
 
+import com.glebestraikh.leetcodereminder.data.testing.repository.TestProblemRepository
+import com.glebestraikh.leetcodereminder.data.testing.repository.TestProgressRepository
 import com.glebestraikh.leetcodereminder.model.Difficulty
-import com.glebestraikh.leetcodereminder.data.database.model.Progress
-import com.glebestraikh.leetcodereminder.data.database.model.Rating
-import com.glebestraikh.leetcodereminder.data.testing.repository.TestProblemStore
-import com.glebestraikh.leetcodereminder.data.testing.repository.TestProgressStore
+import com.glebestraikh.leetcodereminder.model.ProgressInfo
+import com.glebestraikh.leetcodereminder.model.Rating
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.test.runTest
 import org.junit.Assert.assertEquals
@@ -15,14 +15,14 @@ import org.junit.Test
 
 class ProblemTopicsUseCaseTest {
 
-    private val problemStore = TestProblemStore()
-    private val progressStore = TestProgressStore()
+    private val problemRepository = TestProblemRepository()
+    private val progressRepository = TestProgressRepository()
 
-    val useCase = ProblemTopicsUseCase(problemStore = problemStore, progressStore = progressStore)
+    val useCase = ProblemTopicsUseCase(problemRepository = problemRepository, progressRepository = progressRepository)
 
     @Before
     fun setUp() {
-        problemStore.setProblems(
+        problemRepository.setProblems(
             listOf(
                 testProblem(number = 3, difficulty = Difficulty.MEDIUM, topic = "Sliding Window", topicOrder = 2),
                 testProblem(number = 125, difficulty = Difficulty.EASY, topic = "Two Pointers", topicOrder = 1),
@@ -48,7 +48,7 @@ class ProblemTopicsUseCaseTest {
 
     @Test
     fun solvedProblemsAreMarked() = runTest {
-        progressStore.setProgress(listOf(Progress(problemNumber = 11, lastRating = Rating.REMEMBER_WELL, solvedCount = 1)))
+        progressRepository.setProgress(listOf(ProgressInfo(problemNumber = 11, lastRating = Rating.REMEMBER_WELL, solvedCount = 1)))
 
         val problems = useCase().first().first().problems
 

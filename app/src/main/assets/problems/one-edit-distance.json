@@ -1,0 +1,12 @@
+{
+  "number": 161,
+  "title": "One Edit Distance",
+  "difficulty": "MEDIUM",
+  "topic": "Two Pointers",
+  "pattern": "Two Pointers",
+  "timeComplexity": "O(m), m is the length of s",
+  "spaceComplexity": "O(1)",
+  "description": "Given strings s and t, return true if they are exactly one edit apart. An edit is inserting one character, deleting one character or replacing one character.\n\nExample 1:\nInput: s = \"ab\", t = \"acb\"\nOutput: true\nExplanation: Insert 'c'\n\nExample 2:\nInput: s = \"\", t = \"\"\nOutput: false\nExplanation: The strings are equal — zero edits, but exactly one is required\n\nExample 3:\nInput: s = \"a\", t = \"\"\nOutput: true\n\nConstraints:\n- 0 ≤ len(s), len(t) ≤ 10^4\n- s and t consist of English letters and digits",
+  "idea": "Make s the shorter string by swapping if needed. If t is longer by more than one character, return false. Walk to the first difference: with equal lengths, the rests after it must match (a replace); with different lengths, s[i:] must match t[i+1:] (an insert). If there is no difference, the answer is true only when t is exactly one character longer.",
+  "solution": "func isOneEditDistance(s, t string) bool {\n\tif len(s) > len(t) {\n\t\ts, t = t, s\n\t}\n\tif len(t) > len(s)+1 {\n\t\treturn false\n\t}\n\tfor i := range s {\n\t\tif len(s) == len(t) && s[i] != t[i] {\n\t\t\treturn s[i+1:] == t[i+1:]\n\t\t}\n\t\tif len(s) != len(t) && s[i] != t[i] {\n\t\t\treturn s[i:] == t[i+1:]\n\t\t}\n\t}\n\treturn len(t) == len(s)+1\n}"
+}

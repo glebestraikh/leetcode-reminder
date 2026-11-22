@@ -1,0 +1,12 @@
+{
+  "number": 226,
+  "title": "Invert Binary Tree",
+  "difficulty": "EASY",
+  "topic": "Trees & Backtracking",
+  "pattern": "Tree",
+  "timeComplexity": "O(n)",
+  "spaceComplexity": "O(h), h is the height of the tree",
+  "description": "Given the root of a binary tree, mirror the tree — swap the left and right children of every node — and return the root.\n\nExample 1:\nInput: root = [4,2,7,1,3,6,9]\nOutput: [4,7,2,9,6,3,1]\n\nExample 2:\nInput: root = [2,1,3]\nOutput: [2,3,1]\n\nExample 3:\nInput: root = []\nOutput: []\n\nConstraints:\n- 0 ≤ number of nodes ≤ 100\n- -100 ≤ Node.val ≤ 100",
+  "idea": "Recursion: return an empty node as is, otherwise swap Left and Right and mirror both subtrees the same way. Each node is visited once, and the recursion depth equals the height of the tree.",
+  "solution": "func invertTree(root *TreeNode) *TreeNode {\n\tif root == nil {\n\t\treturn nil\n\t}\n\troot.Left, root.Right = root.Right, root.Left\n\troot.Left = invertTree(root.Left)\n\troot.Right = invertTree(root.Right)\n\treturn root\n}"
+}

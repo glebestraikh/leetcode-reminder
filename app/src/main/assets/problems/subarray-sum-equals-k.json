@@ -1,0 +1,12 @@
+{
+  "number": 560,
+  "title": "Subarray Sum Equals K",
+  "difficulty": "MEDIUM",
+  "topic": "Arrays & Hashing",
+  "pattern": "Prefix Sum",
+  "timeComplexity": "O(n)",
+  "spaceComplexity": "O(n)",
+  "description": "Given an array of integers nums and an integer k, return the number of contiguous subarrays whose sum equals k.\n\nExample 1:\nInput: nums = [1,1,1], k = 2\nOutput: 2\n\nExample 2:\nInput: nums = [1,2,3], k = 3\nOutput: 2\nExplanation: [1,2] and [3]\n\nConstraints:\n- 1 ≤ len(nums) ≤ 2 · 10^4\n- -1000 ≤ nums[i] ≤ 1000\n- -10^7 ≤ k ≤ 10^7",
+  "idea": "The sum of nums[i+1..j] equals prefixSum[j] − prefixSum[i], so we look for pairs with prefixSum[i] = prefixSum[j] − k. Walk left to right with the running sum currSum and keep a map of how many times each prefix sum has appeared: at each step add the count of currSum − k to the answer. The initial {0: 1} is the empty prefix.",
+  "solution": "func subarraySum(nums []int, k int) int {\n\tcurrSum := 0\n\tseenCount := map[int]int{0: 1}\n\tres := 0\n\tfor _, v := range nums {\n\t\tcurrSum += v\n\t\tdiff := currSum - k\n\t\tres += seenCount[diff]\n\t\tseenCount[currSum] += 1\n\t}\n\treturn res\n}"
+}

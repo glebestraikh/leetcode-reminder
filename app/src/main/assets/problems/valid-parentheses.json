@@ -1,0 +1,12 @@
+{
+  "number": 20,
+  "title": "Valid Parentheses",
+  "difficulty": "EASY",
+  "topic": "Stack & Queue",
+  "pattern": "Stack",
+  "timeComplexity": "O(n)",
+  "spaceComplexity": "O(n)",
+  "description": "Given a string s made of the characters '(', ')', '[', ']', '{', '}', check whether the brackets are valid: every opening bracket is closed by a bracket of the same type and in the correct order.\n\nExample 1:\nInput: s = \"()\"\nOutput: true\n\nExample 2:\nInput: s = \"()[]{}\"\nOutput: true\n\nExample 3:\nInput: s = \"(]\"\nOutput: false\n\nExample 4:\nInput: s = \"([])\"\nOutput: true\n\nConstraints:\n- 1 ≤ len(s) ≤ 10^4\n- s consists only of the brackets ()[]{}",
+  "idea": "Push opening brackets onto a stack. For a closing bracket, take its matching opening bracket from the map and compare it with the top of the stack: if the stack is empty or they differ, the string is invalid. At the end the stack must be empty.",
+  "solution": "func isValid(s string) bool {\n\tcloseToOpen := map[byte]byte{')': '(', ']': '[', '}': '{'}\n\tstack := []byte{}\n\tfor i := range s {\n\t\tif v, ok := closeToOpen[s[i]]; ok {\n\t\t\tif len(stack) > 0 {\n\t\t\t\tprev := stack[len(stack)-1]\n\t\t\t\tstack = stack[:len(stack)-1]\n\t\t\t\tif prev != v {\n\t\t\t\t\treturn false\n\t\t\t\t}\n\t\t\t} else {\n\t\t\t\treturn false\n\t\t\t}\n\t\t} else {\n\t\t\tstack = append(stack, s[i])\n\t\t}\n\t}\n\treturn len(stack) == 0\n}"
+}
