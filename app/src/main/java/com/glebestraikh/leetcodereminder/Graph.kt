@@ -8,7 +8,6 @@ import com.glebestraikh.leetcodereminder.data.problems.ProblemRepository
 import com.glebestraikh.leetcodereminder.data.progress.ProgressRepository
 import com.glebestraikh.leetcodereminder.data.progress.RoomProgressRepository
 import com.glebestraikh.leetcodereminder.domain.ProblemCatalog
-import com.glebestraikh.leetcodereminder.domain.SaveRatingUseCase
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 
@@ -30,10 +29,6 @@ object Graph {
 
     val problemCatalog by lazy {
         ProblemCatalog(problemRepository = problemRepository, progressRepository = progressRepository)
-    }
-
-    val saveRatingUseCase by lazy {
-        SaveRatingUseCase(progressRepository = progressRepository)
     }
 
     fun provide(context: Context, applicationScope: CoroutineScope) {

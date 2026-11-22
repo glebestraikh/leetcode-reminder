@@ -8,7 +8,6 @@ import com.glebestraikh.leetcodereminder.Graph
 import com.glebestraikh.leetcodereminder.data.problems.ProblemRepository
 import com.glebestraikh.leetcodereminder.data.progress.ProgressRepository
 import com.glebestraikh.leetcodereminder.domain.PuzzleChecker
-import com.glebestraikh.leetcodereminder.domain.SaveRatingUseCase
 import com.glebestraikh.leetcodereminder.domain.SolutionSplitter
 import com.glebestraikh.leetcodereminder.domain.hints
 import com.glebestraikh.leetcodereminder.model.Hint
@@ -87,8 +86,7 @@ class ProblemDetailsViewModel(
     private val savedStateHandle: SavedStateHandle,
     private val problemNumber: Int,
     problemRepository: ProblemRepository = Graph.problemRepository,
-    progressRepository: ProgressRepository = Graph.progressRepository,
-    private val saveRatingUseCase: SaveRatingUseCase = Graph.saveRatingUseCase,
+    private val progressRepository: ProgressRepository = Graph.progressRepository,
     random: Random = Random.Default,
 ) : ViewModel() {
 
@@ -212,7 +210,7 @@ class ProblemDetailsViewModel(
         updateSession { it.copy(isSavingRating = true, ratingSaveFailed = false) }
         viewModelScope.launch {
             try {
-                saveRatingUseCase(problemNumber = problemNumber, rating = rating)
+                progressRepository.saveRating(problemNumber, rating)
                 updateSession { it.copy(savedRating = rating) }
             } catch (e: CancellationException) {
                 throw e

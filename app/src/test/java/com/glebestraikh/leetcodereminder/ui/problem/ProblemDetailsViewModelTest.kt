@@ -3,7 +3,6 @@ package com.glebestraikh.leetcodereminder.ui.problem
 import androidx.lifecycle.SavedStateHandle
 import com.glebestraikh.leetcodereminder.data.testing.repository.TestProblemRepository
 import com.glebestraikh.leetcodereminder.data.testing.repository.TestProgressRepository
-import com.glebestraikh.leetcodereminder.domain.SaveRatingUseCase
 import com.glebestraikh.leetcodereminder.domain.testProblem
 import com.glebestraikh.leetcodereminder.model.HintType
 import com.glebestraikh.leetcodereminder.model.Rating
@@ -36,7 +35,6 @@ class ProblemDetailsViewModelTest {
         problemNumber = problem.number,
         problemRepository = problemRepository,
         progressRepository = progressRepository,
-        saveRatingUseCase = SaveRatingUseCase(progressRepository = progressRepository),
         random = Random(seed = 42),
     )
 
@@ -136,7 +134,26 @@ class ProblemDetailsViewModelTest {
         viewModel.onRatingSelected(Rating.REMEMBER_WELL)
 
         assertEquals(Rating.NEED_TO_REPEAT, viewModel.readyState.savedRating)
-        assertEquals(1, progressRepository.getProgress(1).first()?.solvedCount)
+        val progress = progressRepository.getProgress(1).first()
+        assertEquals(1, progress?.solvedCount)
+        assertEquals(Rating.NEED_TO_REPEAT, progress?.lastRating)
+    }
+
+    @Test
+    fun secondSolveIncreasesCountAndSavesLatestRating() = runTest {
+        val firstAttempt = createViewModel()
+        subscribe(firstAttempt)
+        firstAttempt.solve()
+        firstAttempt.onRatingSelected(Rating.FORGOT)
+
+        val secondAttempt = createViewModel()
+        subscribe(secondAttempt)
+        secondAttempt.solve()
+        secondAttempt.onRatingSelected(Rating.REMEMBER_WELL)
+
+        val progress = progressRepository.getProgress(1).first()
+        assertEquals(2, progress?.solvedCount)
+        assertEquals(Rating.REMEMBER_WELL, progress?.lastRating)
     }
 
     @Test
