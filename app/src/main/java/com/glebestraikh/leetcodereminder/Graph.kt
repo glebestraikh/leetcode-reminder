@@ -27,12 +27,17 @@ object Graph {
     }
 
     fun provide(context: Context, applicationScope: CoroutineScope) {
-        database = Room.databaseBuilder(context, LeetCodeReminderDatabase::class.java, "leetcode_reminder.db")
-            .build()
+        database = Room.databaseBuilder(
+            context,
+            LeetCodeReminderDatabase::class.java,
+            "leetcode_reminder.db",
+        ).build()
+
         val assets = context.assets
         problemRepository = AssetProblemRepository(
             listAssets = assets::list,
-            readAsset = { path -> assets.open(path).bufferedReader().use { it.readText() } },
+            readAsset = { path ->
+                assets.open(path).bufferedReader().use { it.readText() } },
             applicationScope = applicationScope,
             ioDispatcher = Dispatchers.IO,
         )

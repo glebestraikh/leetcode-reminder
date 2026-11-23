@@ -15,8 +15,9 @@ sealed interface Screen : NavKey {
 }
 
 @Composable
-fun rememberLeetCodeReminderAppState(backStack: MutableList<NavKey> = rememberNavBackStack(Screen.Home)) =
-    remember(backStack) {
+fun rememberLeetCodeReminderAppState(
+    backStack: MutableList<NavKey> = rememberNavBackStack(Screen.Home)
+    ) = remember(backStack) {
         LeetCodeReminderAppState(backStack)
     }
 
